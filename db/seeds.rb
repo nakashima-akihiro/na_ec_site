@@ -1,12 +1,12 @@
 p '==================== customer create ===================='
-Customer.create!(name: "Yamada Taro", email: "yamada.taro@gmail.com", password: "111111")
-Customer.create!(name: "Sato Mamoru", email: "sato.mamoru@gmail.com", password: "111111")
-Customer.create!(name: "Tanaka Saki", email: "tanaka.saki@gmail.com", password: "111111")
-Customer.create!(name: "Hoshino Yui", email: "hoshino.yui@gmail.com", password: "111111")
-Customer.create!(name: "Saito Kazuma", email: "saito.kazuma@gmail.com", password: "111111")
+Customer.find_or_create_by(email: "yamada.taro@gmail.com") { |customer| customer.name = "Yamada Taro"; customer.password = "111111" }
+Customer.find_or_create_by(email: "sato.mamoru@gmail.com") { |customer| customer.name = "Sato Mamoru"; customer.password = "111111" }
+Customer.find_or_create_by(email: "tanaka.saki@gmail.com") { |customer| customer.name = "Tanaka Saki"; customer.password = "111111" }
+Customer.find_or_create_by(email: "hoshino.yui@gmail.com") { |customer| customer.name = "Hoshino Yui"; customer.password = "111111" }
+Customer.find_or_create_by(email: "saito.kazuma@gmail.com") { |customer| customer.name = "Saito Kazuma"; customer.password = "111111" }
 
 p '==================== admin create ===================='
-Admin.create!(email: "admin@gmail.com", password: "1234qwer")
+Admin.find_or_create_by(email: "admin@gmail.com") { |admin| admin.password = "1234qwer" }
 
 p '==================== product create ===================='
 product1 = Product.new(
