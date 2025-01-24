@@ -1,0 +1,2 @@
+- docker compose up で立ち上げる
+- localhost:8000 でブラウザ見れる
