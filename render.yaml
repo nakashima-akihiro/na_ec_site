@@ -6,7 +6,7 @@ databases:
 
 services:
   - type: redis
-    name: na_ec_site_Redis
+    name: cache
     ipAllowList: [] # only allow internal connections
     plan: free # optional (defaults to starter)
     maxmemoryPolicy: allkeys-lfu # optional (defaults to allkeys-lru). Rails recommends allkeys-lfu as a default.
