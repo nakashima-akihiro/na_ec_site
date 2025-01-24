@@ -1,2 +1,3 @@
-- docker compose up で立ち上げる
+- `docker compose up` で立ち上げる
 - localhost:8000 でブラウザ見れる
+- コンテナに入る `docker-compose run --rm web bash`
