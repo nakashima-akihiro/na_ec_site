@@ -1,7 +1,7 @@
 databases:
-  - name: na_ec_site
-    databaseName: na_ec_site
-    user: na_ec_site
+  - name: na_ec_site_DB
+    databaseName: na_ec_site_db
+    user: na_ec_site_db_user
     plan: free
 
 services:
