@@ -101,6 +101,7 @@ GEM
     erubi (1.11.0)
     globalid (1.0.0)
       activesupport (>= 5.0)
+    hiredis (0.6.3)
     i18n (1.12.0)
       concurrent-ruby (~> 1.0)
     io-console (0.5.11)
@@ -133,6 +134,8 @@ GEM
       net-protocol
     nio4r (2.5.8)
     nokogiri (1.13.9-aarch64-linux)
+      racc (~> 1.4)
+    nokogiri (1.13.9-x86_64-darwin)
       racc (~> 1.4)
     nokogiri (1.13.9-x86_64-linux)
       racc (~> 1.4)
@@ -269,6 +272,7 @@ DEPENDENCIES
   cssbundling-rails
   debug
   devise
+  hiredis
   jbuilder
   jsbundling-rails
   pg (~> 1.1)
