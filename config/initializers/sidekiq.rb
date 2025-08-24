@@ -3,7 +3,7 @@ redis_url = ENV.fetch("REDIS_URL")
 sidekiq_config = {
   url: redis_url,
   ssl_params: {
-    verify_mode: OpenSSL::SSL::VERIFY_PEER
+    verify_mode: OpenSSL::SSL::VERIFY_NONE
   }
 }
 
