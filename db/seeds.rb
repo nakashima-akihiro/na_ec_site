@@ -6,7 +6,7 @@ Customer.find_or_create_by(email: "hoshino.yui@gmail.com") { |customer| customer
 Customer.find_or_create_by(email: "saito.kazuma@gmail.com") { |customer| customer.name = "Saito Kazuma"; customer.password = "111111" }
 
 p '==================== admin create ===================='
-Admin.find_or_create_by(email: "admin@gmail.com") { |admin| admin.password = "1234qwer" }
+Admin.find_or_create_by(email: "akihironakashima0@gmail.com") { |admin| admin.password = "CI315Il01eVkTzG" }
 
 p '==================== product create ===================='
 product1 = Product.new(
