@@ -63,7 +63,8 @@
 .font-heading { font-family: 'Bebas Neue', cursive; letter-spacing: 0.05em; }
 
 main {
-  padding-top: 26.667vw;
+  padding-top: 100px;
+  padding-bottom: 40px;
 }
 
 body {

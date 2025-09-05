@@ -152,17 +152,17 @@
     </div>
 
     <% if flash[:notice] %>
-      <div class="p-4 mb-4 text-md text-blue-700 text-center font-bold">
+      <div class="notifice-float p-4 text-md text-blue-700 text-center font-bold fixed z-20 bottom-5 right-0 bg-gray-300 rounded-lg">
         <%= notice %>
       </div>
     <% end %>
     <% if flash[:alert] %>
-      <div class="p-4 mb-4 text-md text-red-700 text-center font-bold">
+      <div class="notifice-float p-4 mb-4 text-md text-red-700 text-center font-bold fixed z-20 bottom-5 right-0 bg-gray-300 rounded-lg">
         <%= alert %>
       </div>
     <% end %>
 
-    <main class="<%= controller_name == 'products' && action_name == 'index' ? 'pt-[19.2vw]' : '' %> <%= controller_name == 'admin' ? '' : 'mt-0' %>">
+    <main class="<%= controller_path == 'customer/products' && action_name == 'index' ? 'pt-[72px]' : '' %>">
       <%= yield %>
     </main>
 
@@ -173,6 +173,15 @@
       visibility: visible;
     }
     </style>
+    <%# <script>
+      // アラートの自動消去
+      setTimeout(() => {
+        const alert = document.querySelector('.notifice-float');
+        if (alert) {
+          alert.classList.add('hidden');
+        }
+      }, 5000);
+    </script> %>
   </body>
   <footer class="bg-gray-900 text-gray-200">
     <div class="max-w-7xl mx-auto px-6 py-10 grid md:grid-cols-3 gap-8">
