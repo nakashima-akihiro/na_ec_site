@@ -3,7 +3,6 @@
     Shopping Cart
   </span>
 </div>
-
 <% if @cart_items.count == 0 %>
   <div class='mx-auto max-w-3xl'>
     <p class='mb-8 text-xl text-center'>No item</p>
@@ -35,7 +34,7 @@
                 <td class="p-3 whitespace-nowrap">
                   <div class="flex flex-col justify-center mx-6">
                     <span class="font-bold text-xl"><%= cart_item.product.name %></span>
-                    <span class="text-sm"><%= cart_item.product.stock %> left in stock</span>
+                    <span class="text-sm"><%= cart_item.product.stock %> left 在庫あり</span>
                   </div>
                 </td>
                 <td class="p-3">

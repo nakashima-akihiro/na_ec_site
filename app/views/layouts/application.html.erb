@@ -20,18 +20,22 @@
     <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#61b9d2">
     <meta name="msapplication-TileColor" content="#da532c">
     <meta name="theme-color" content="#ffffff">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Libertinus+Serif:ital,wght@0,400;0,600;0,700;1,400;1,600;1,700&family=Noto+Serif+JP:wght@200..900&family=Zen+Kaku+Gothic+New&display=swap" rel="stylesheet">
+    <link rel="stylesheet"href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"/>
   </head>
 
   <body class="flex flex-col h-screen justify-between">
-    <div class='bg-gray-900 mb-8 z-10'>
-      <div class='container mx-auto flex max-w-4xl items-center px-2 py-5'>
-        <div class='mx-auto flex w-full flex-wrap items-center'>
-          <div class='flex w-full justify-center font-extrabold text-white lg:w-1/2 lg:justify-start'>
-            <%= link_to root_path, class: "text-2xl text-gray-900 no-underline hover:text-gray-900 hover:no-underline" do %>
-              🛍️ &nbsp; <span class=' text-gray-200'>ECommerce</span>
+    <div class='z-10 fixed w-full bg-black'>
+      <div class='container mx-auto flex max-w-4xl items-center pr-2 pl-4 py-2'>
+        <div class='flex items-center justify-between w-full'>
+          <div class='flex w-full font-extrabold text-white lg:w-1/2 lg:justify-start'>
+            <%= link_to root_path, class: "text-2xl text-gray-900 no-underline hover:text-gray-900 hover:no-underline flex items-center rounded-lg w-[50px]" do %>
+              <%= image_tag "logo.jpg", class: "menu-logo rounded-md" %>
             <% end %>
           </div>
-          <div class='flex w-full content-center justify-between pt-2 lg:w-1/2 lg:justify-end lg:pt-0'>
+          <div class='flexcontent-center justify-between pt-2 lg:w-1/2 lg:justify-end lg:pt-0'>
             <ul class='list-reset flex flex-1 items-center justify-center lg:flex-none h-12'>
               <% if admin_signed_in? %>
                 <li class='px-4 text-white no-underline'>
@@ -135,10 +139,10 @@
                 </li>
               <% else %>
                 <li class='px-4 text-white no-underline'>
-                  <%= link_to "Sign Up", new_customer_registration_path %>
+                  <%= link_to "Sign Up", new_customer_registration_path, class: "whitespace-nowrap" %>
                 </li>
                 <li class='px-4 text-white no-underline'>
-                  <%= link_to "Sign In", new_customer_session_path %>
+                  <%= link_to "Sign In", new_customer_session_path, class: "whitespace-nowrap" %>
                 </li>
               <% end %>
             </ul>
@@ -158,7 +162,7 @@
       </div>
     <% end %>
 
-    <main class="container mx-auto sm:w-10/12 lg:w-9/12 mb-8 z-0">
+    <main class="<%= controller_name == 'products' && action_name == 'index' ? 'pt-[19.2vw]' : '' %> <%= controller_name == 'admin' ? '' : 'mt-0' %>">
       <%= yield %>
     </main>
 
@@ -169,11 +173,43 @@
       visibility: visible;
     }
     </style>
-
-    <footer class="text-center mt-6 pb-6 h-10">
-      <p class="text-gray-500">
-        Copyright © FarStep All Rights Reserved.
-      </p>
-    </footer>
   </body>
+  <footer class="bg-gray-900 text-gray-200">
+    <div class="max-w-7xl mx-auto px-6 py-10 grid md:grid-cols-3 gap-8">
+      
+      <!-- 店舗情報 -->
+      <div>
+        <h2 class="text-xl font-bold text-white">PIZZERIA La Cittá</h2>
+        <p class="mt-3 text-sm leading-6">
+          〒123-4567 東京都渋谷区〇〇1-2-3<br>
+          TEL: 03-1234-5678
+        </p>
+      </div>
+
+      <!-- 営業時間 -->
+      <div>
+        <h2 class="text-lg font-semibold text-white">営業時間</h2>
+        <ul class="mt-3 space-y-1 text-sm">
+          <li>月〜金: 11:30 - 22:00</li>
+          <li>土日祝: 11:00 - 23:00</li>
+          <li>定休日: 火曜日</li>
+        </ul>
+      </div>
+
+      <!-- SNSリンク -->
+      <div>
+        <h2 class="text-lg font-semibold text-white">instagram</h2>
+        <div class="mt-3 flex space-x-4">
+          <a href="https://www.instagram.com/pi_lacitta/" class="hover:text-sky-400 transition underline">
+            @pi_lacitta
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- コピーライト -->
+    <div class="border-t border-gray-700 pt-4 pb-4 text-center text-sm text-gray-500">
+      © <%= Time.current.year %> PIZZERIA La Cittá. All rights reserved.
+    </div>
+  </footer>
 </html>

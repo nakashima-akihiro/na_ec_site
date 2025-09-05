@@ -5,3 +5,69 @@
 @import "tailwindcss/base";
 @import "tailwindcss/components";
 @import "tailwindcss/utilities";
+
+.libertinus-serif-regular {
+  font-family: "Libertinus Serif", serif;
+  font-weight: 400;
+  font-style: normal;
+}
+
+.libertinus-serif-semibold {
+  font-family: "Libertinus Serif", serif;
+  font-weight: 600;
+  font-style: normal;
+}
+
+.libertinus-serif-bold {
+  font-family: "Libertinus Serif", serif;
+  font-weight: 700;
+  font-style: normal;
+}
+
+.libertinus-serif-regular-italic {
+  font-family: "Libertinus Serif", serif;
+  font-weight: 400;
+  font-style: italic;
+}
+
+.libertinus-serif-semibold-italic {
+  font-family: "Libertinus Serif", serif;
+  font-weight: 600;
+  font-style: italic;
+}
+
+.libertinus-serif-bold-italic {
+  font-family: "Libertinus Serif", serif;
+  font-weight: 700;
+  font-style: italic;
+}
+
+.noto-serif-jp-300 {
+  font-family: "Noto Serif JP", serif;
+  font-optical-sizing: auto;
+  font-weight: 300;
+  font-style: normal;
+}
+
+.container {
+  max-width: 768px;
+  margin: 0 auto;
+}
+
+.menu-logo {
+  width: 60px;
+}
+
+.swiper { width: 100%; height: 100%; }
+.swiper-slide { background-position: center; background-size: cover; }
+.font-heading { font-family: 'Bebas Neue', cursive; letter-spacing: 0.05em; }
+
+main {
+  padding-top: 26.667vw;
+}
+
+body {
+  font-family: "Zen Kaku Gothic New", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+}
