@@ -28,7 +28,7 @@
 
   <body class="flex flex-col h-screen justify-between">
     <div class='z-10 fixed w-full bg-black'>
-      <div class='container mx-auto flex max-w-4xl items-center pr-2 pl-4 py-2'>
+      <div class='mx-auto flex max-w-[425px] items-center pr-2 pl-4 py-2'>
         <div class='flex items-center justify-between w-full'>
           <div class='flex w-full font-extrabold text-white lg:w-1/2 lg:justify-start'>
             <%= link_to root_path, class: "text-2xl text-gray-900 no-underline hover:text-gray-900 hover:no-underline flex items-center rounded-lg w-[50px]" do %>
@@ -162,7 +162,7 @@
       </div>
     <% end %>
 
-    <main class="<%= controller_path == 'customer/products' && action_name == 'index' ? 'pt-[72px]' : '' %>">
+    <main class="<%= controller_path == 'customer/products' && action_name == 'index' ? 'pt-[66px]' : '' %>">
       <%= yield %>
     </main>
 
@@ -184,7 +184,7 @@
     </script> %>
   </body>
   <footer class="bg-gray-900 text-gray-200">
-    <div class="max-w-7xl mx-auto px-6 py-10 grid md:grid-cols-3 gap-8">
+    <div class="mx-auto px-6 py-10 grid gap-8 max-w-[425px] m-0 auto">
       
       <!-- 店舗情報 -->
       <div>

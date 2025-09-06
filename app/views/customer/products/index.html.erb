@@ -1,4 +1,4 @@
-<div class="w-full h-[64vw]">
+<div class="w-full h-[64vw] max-h-[272px]">
   <div class="swiper heroSwiper h-full">
     <div class="swiper-wrapper">
       <div class="swiper-slide" style="background-image: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url('https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?ixlib=rb-4.0.3');"></div>
@@ -7,7 +7,7 @@
     </div>
   </div>
 </div>
-<div class="px-4 py-4">
+<div class="px-4 py-4 max-w-[425px] mx-auto">
   <div class="mb-4 text-center">
     <span class="text-3xl font-bold libertinus-serif-bold">
       Products
@@ -26,9 +26,9 @@
   </div>
   <div class='flex flex-wrap justify-between'>
     <% @products.each do |product| %>
-      <div class="w-full rounded-lg w-[44vw]">
+      <div class="w-full rounded-lg w-[44vw] max-w-[187px]">
         <%= link_to product_path(product) do %>
-          <div class="w-full h-[30.933vw] overflow-hidden">
+          <div class="w-full h-[30.933vw] overflow-hidden max-h-[131px]">
             <%= image_tag product.image, class: "object-cover w-full h-full" %>
           </div>
           <div class="py-2 pb-4">

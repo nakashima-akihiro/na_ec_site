@@ -65,6 +65,8 @@
 main {
   padding-top: 100px;
   padding-bottom: 40px;
+  /* max-width: 425px;
+  margin: 0 auto; */
 }
 
 body {
