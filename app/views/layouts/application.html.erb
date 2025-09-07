@@ -1,31 +1,52 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <title>Ecommerce</title>
+    <title>PIZZERIA La Cittá</title>
 
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="A production ready example Rails app that's using Docker and Docker Compose.">
+    <meta name="description" content="薩摩川内市天辰町にあるPIZZERIA La Cittá（ラ チッタ）。薪窯で焼き上げる本格ナポリピッツァをご提供しております。">
 
     <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
     <%= javascript_include_tag "application", "data-turbo-track": "reload", defer: true %>
 
+    <%# ogp %>
+    <meta property="og:title" content="PIZZERIA La Cittá">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="<%= request.original_url %>">
+    <meta property="og:image" content="<%= image_url('logo.jpg') %>">
+    <meta property="og:description" content="薩摩川内市天辰町にあるPIZZERIA La Cittá（ラ チッタ）。薪窯で焼き上げる本格ナポリピッツァをご提供しております。">
+
     <%# Generated with: https://realfavicongenerator.net/ %>
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
-    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon.ico">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon.ico">
     <link rel="manifest" href="/site.webmanifest">
     <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#61b9d2">
     <meta name="msapplication-TileColor" content="#da532c">
     <meta name="theme-color" content="#ffffff">
+
+    <%# fonts %>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Libertinus+Serif:ital,wght@0,400;0,600;0,700;1,400;1,600;1,700&family=Noto+Serif+JP:wght@200..900&family=Zen+Kaku+Gothic+New&display=swap" rel="stylesheet">
     <link rel="stylesheet"href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"/>
   </head>
-
+  <style>
+    .dropdown-menu {
+      opacity: 0;
+      visibility: hidden;
+      transform: translateY(-0.5rem) scale(0.95);
+      transition: all 0.3s;
+    }
+    .dropdown.open .dropdown-menu {
+      opacity: 1;
+      visibility: visible;
+      transform: translateY(0) scale(1);
+    }
+  </style>
   <body class="flex flex-col h-screen justify-between">
     <div class='z-10 fixed w-full bg-black'>
       <div class='mx-auto flex max-w-[425px] items-center pr-2 pl-4 py-2'>
@@ -70,7 +91,7 @@
                       </button>
                       <div class="opacity-0 invisible dropdown-menu transition-all duration-300 transform origin-top-right -translate-y-2 scale-95">
                         <div class="absolute right-0 w-56 mt-2 origin-top-right bg-white border border-gray-200 divide-y divide-gray-100 rounded-md shadow-lg outline-none" aria-labelledby="headlessui-menu-button-1" id="headlessui-menu-items-117" role="menu">
-                          <div class="px-4 py-3">         
+                          <div class="px-4 py-3">
                             <p class="text-sm leading-5">Signed in as</p>
                             <p class="text-sm font-medium leading-5 text-gray-900 truncate"><%= current_admin.email %></p>
                           </div>
@@ -115,7 +136,7 @@
                       </button>
                       <div class="opacity-0 invisible dropdown-menu transition-all duration-300 transform origin-top-right -translate-y-2 scale-95">
                         <div class="absolute right-0 w-56 mt-2 origin-top-right bg-white border border-gray-200 divide-y divide-gray-100 rounded-md shadow-lg outline-none" aria-labelledby="headlessui-menu-button-1" id="headlessui-menu-items-117" role="menu">
-                          <div class="px-4 py-3">         
+                          <div class="px-4 py-3">
                             <p class="text-sm leading-5">Signed in as</p>
                             <p class="text-sm font-medium leading-5 text-gray-900 truncate"><%= current_customer.email %></p>
                           </div>
@@ -150,7 +171,6 @@
         </div>
       </div>
     </div>
-
     <% if flash[:notice] %>
       <div class="notifice-float p-4 text-md text-blue-700 text-center font-bold fixed z-20 bottom-5 right-0 bg-gray-300 rounded-lg">
         <%= notice %>
@@ -161,31 +181,12 @@
         <%= alert %>
       </div>
     <% end %>
-
     <main class="<%= controller_path == 'customer/products' && action_name == 'index' ? 'pt-[66px]' : '' %>">
       <%= yield %>
     </main>
-
-    <style>
-    .dropdown:focus-within .dropdown-menu {
-      opacity:1;
-      transform: translate(0) scale(1);
-      visibility: visible;
-    }
-    </style>
-    <%# <script>
-      // アラートの自動消去
-      setTimeout(() => {
-        const alert = document.querySelector('.notifice-float');
-        if (alert) {
-          alert.classList.add('hidden');
-        }
-      }, 5000);
-    </script> %>
   </body>
   <footer class="bg-gray-900 text-gray-200">
     <div class="mx-auto px-6 py-10 grid gap-8 max-w-[425px] m-0 auto">
-      
       <!-- 店舗情報 -->
       <div>
         <h2 class="text-xl font-bold text-white">PIZZERIA La Cittá</h2>
@@ -194,7 +195,6 @@
           TEL: 03-1234-5678
         </p>
       </div>
-
       <!-- 営業時間 -->
       <div>
         <h2 class="text-lg font-semibold text-white">営業時間</h2>
@@ -204,7 +204,6 @@
           <li>定休日: 火曜日</li>
         </ul>
       </div>
-
       <!-- SNSリンク -->
       <div>
         <h2 class="text-lg font-semibold text-white">instagram</h2>
@@ -215,7 +214,6 @@
         </div>
       </div>
     </div>
-
     <!-- コピーライト -->
     <div class="border-t border-gray-700 pt-4 pb-4 text-center text-sm text-gray-500">
       © <%= Time.current.year %> PIZZERIA La Cittá. All rights reserved.
