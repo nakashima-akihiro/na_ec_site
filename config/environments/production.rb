@@ -40,7 +40,7 @@ Rails.application.configure do
   # Store uploaded files on the local file system (see config/storage.yml for options).
   config.active_storage.service = :amazon
 
-  config.action_mailer.default_url_options = { protocol: 'https', host: 'worker-tq00.onrender.com' }
+  config.action_mailer.default_url_options = { protocol: 'https', host: ENV.fetch('DEFAULT_URL') { 'worker-tq00.onrender.com' } }
   config.action_mailer.delivery_method = :smtp
   config.action_mailer.smtp_settings = {
     address: 'smtp.gmail.com',
