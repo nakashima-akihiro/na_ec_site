@@ -12,6 +12,7 @@
             </h1>
           </div>
           <p class="text-2xl font-bold"><%= number_to_currency(@product.price, unit: "¥", strip_insignificant_zeros: true) %></p>
+          <p class="text-2xl font-bold"><%= number_to_currency(@product.price, unit: "¥", strip_insignificant_zeros: true) %><span class="text-xs font-normal ml-2">税込</span></p>
         </div>
         <div class="mb-8">
           <p>
