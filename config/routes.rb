@@ -40,6 +40,10 @@ Rails.application.routes.draw do
     end
   end
 
+
+  get '/law', to: 'pages#law', as: :law
+  get '/privacy', to: 'pages#privacy', as: :privacy
+  get '/terms', to: 'pages#terms', as: :terms
   get '/up/', to: 'up#index', as: :up
   get '/up/databases', to: 'up#databases', as: :up_databases
 
