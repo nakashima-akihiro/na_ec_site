@@ -79,3 +79,4 @@ end
 gem "devise"
 gem "stripe"
 gem 'aws-sdk-s3', require: false
+gem 'recaptcha', require: 'recaptcha/rails'
