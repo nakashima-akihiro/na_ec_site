@@ -89,7 +89,7 @@
           <p>Current Status: <span class="mt-5 bg-blue-100 text-blue-800 text-md font-semibold py-2 px-3 rounded"><%= @order.status %></span></p>
           <%= form_with model: @order, url: admin_order_path(@order), local: true  do |f|  %>
             <div class="mb-6">
-              <%= f.select :status, Order.statuses.keys.to_a, {}, {class: "bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-3 appearance-none"} %>
+              <%= f.select :status, Order.statuses.keys.to_a, {}, {class: "bg-gray-50 border border-gray-300  text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-3 appearance-none"} %>
             </div>
             <%= f.submit class: "inline-flex w-full items-center justify-center rounded-md bg-indigo-500 p-3 text-white duration-100 ease-in-out hover:bg-indigo-600 focus:outline-none cursor-pointer" %>
           <% end %>

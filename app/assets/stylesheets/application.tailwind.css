@@ -6,49 +6,6 @@
 @import "tailwindcss/components";
 @import "tailwindcss/utilities";
 
-.libertinus-serif-regular {
-  font-family: "Libertinus Serif", serif;
-  font-weight: 400;
-  font-style: normal;
-}
-
-.libertinus-serif-semibold {
-  font-family: "Libertinus Serif", serif;
-  font-weight: 600;
-  font-style: normal;
-}
-
-.libertinus-serif-bold {
-  font-family: "Libertinus Serif", serif;
-  font-weight: 700;
-  font-style: normal;
-}
-
-.libertinus-serif-regular-italic {
-  font-family: "Libertinus Serif", serif;
-  font-weight: 400;
-  font-style: italic;
-}
-
-.libertinus-serif-semibold-italic {
-  font-family: "Libertinus Serif", serif;
-  font-weight: 600;
-  font-style: italic;
-}
-
-.libertinus-serif-bold-italic {
-  font-family: "Libertinus Serif", serif;
-  font-weight: 700;
-  font-style: italic;
-}
-
-.noto-serif-jp-300 {
-  font-family: "Noto Serif JP", serif;
-  font-optical-sizing: auto;
-  font-weight: 300;
-  font-style: normal;
-}
-
 .container {
   max-width: 768px;
   margin: 0 auto;
@@ -71,9 +28,8 @@ main {
 
 
 body {
-  font-family: "Open Sans", sans-serif;
-  font-optical-sizing: auto;
-  font-weight: 300;
+  font-family: "Lato", sans-serif;
+  font-weight: 400;
   font-style: normal;
-  font-variation-settings: "wdth" 100;
+  color: #1a1a1a;
 }
