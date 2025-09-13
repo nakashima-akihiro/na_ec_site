@@ -7,11 +7,11 @@
       <div class="flex flex-col justify-between gap-6">
         <div class="grid gap-2">
           <div class="max-w-[35ch]">
-            <h1 class="text-2xl">
+            <h1 class="text-xl">
               <%= @product.name %>
             </h1>
           </div>
-          <p class="text-2xl"><%= number_to_currency(@product.price, unit: "¥", strip_insignificant_zeros: true) %><span class="text-xs font-normal ml-2">税込</span></p>
+          <p class="text-xl"><%= number_to_currency(@product.price, unit: "¥", strip_insignificant_zeros: true) %><span class="text-xs font-normal ml-2">税込</span></p>
         </div>
         <div class="mb-8">
           <p>
