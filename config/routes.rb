@@ -13,6 +13,7 @@ Rails.application.routes.draw do
     resources :products, only: %i[index show new create edit update destroy]
     resources :orders, only: %i[show update]
     resources :customers, only: %i[index show update]
+  resources :categories, only: [:index, :new, :create, :destroy]
     authenticate :admin do
       mount Sidekiq::Web => '/sidekiq'
     end

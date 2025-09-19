@@ -1,0 +1,23 @@
+<div class="mb-6 text-center">
+  <span class="text-3xl font-bold">
+    カテゴリ追加
+  </span>
+</div>
+<div class='flex flex-wrap justify-center'>
+  <%= form_with model: @category, url: admin_categories_path, local: true, class: "xl:w-8/12 md:w-10/12", data: { turbo: false }  do |f| %>
+    <% if @category.errors.any? %>
+      <div class="mb-4 text-red-600">
+        <ul>
+          <% @category.errors.full_messages.each do |msg| %>
+            <li><%= msg %></li>
+          <% end %>
+        </ul>
+      </div>
+    <% end %>
+    <div class="mb-6">
+      <%= f.label :name, "カテゴリ名", class: "mb-2 block text-sm text-gray-600" %>
+      <%= f.text_field :name, class: "w-full rounded-md border border-gray-300 py-2 px-3 placeholder:text-gray-300 focus:border-indigo-300 focus:outline-none focus:ring focus:ring-indigo-100" %>
+    </div>
+    <%= f.submit "追加", class: "inline-flex w-full items-center justify-center rounded-md bg-indigo-500 p-3 text-white duration-100 ease-in-out hover:bg-indigo-600 focus:outline-none cursor-pointer" %>
+  <% end %>
+</div>

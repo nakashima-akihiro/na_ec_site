@@ -11,4 +11,5 @@ class Product < ApplicationRecord
   scope :price_low_to_high, -> { order(price: :asc) }
   has_many :cart_items, dependent: :destroy
   has_many :order_details, dependent: :destroy
+  has_and_belongs_to_many :categories
 end
