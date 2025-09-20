@@ -1,6 +1,24 @@
 class Customer::ProductsController < ApplicationController
   def index
-    @products, @sort = get_products(params)
+    products = Product.all
+    if params[:category_id].present?
+      @category = Category.find(params[:category_id])
+      products = @category.products
+    end
+
+    if params[:latest]
+      @products = products.order(created_at: :desc)
+      @sort = 'latest'
+    elsif params[:price_high_to_low]
+      @products = products.price_high_to_low
+      @sort = 'price_high_to_low'
+    elsif params[:price_low_to_high]
+      @products = products.price_low_to_high
+      @sort = 'price_low_to_high'
+    else
+      @products = products
+      @sort = 'default'
+    end
   end
 
   def show
