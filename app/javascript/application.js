@@ -22,3 +22,15 @@ document.addEventListener('DOMContentLoaded', function() {
     });
   });
 });
+
+// notificationの閉じるボタン
+document.addEventListener('DOMContentLoaded', function() {
+  document.querySelectorAll('.notification-close').forEach(function(button) {
+    button.addEventListener('click', function() {
+      const notification = button.closest('.notification-element');
+      if (notification) {
+        notification.remove();
+      }
+    });
+  });
+});

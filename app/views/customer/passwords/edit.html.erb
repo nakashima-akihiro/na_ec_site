@@ -1,25 +1,31 @@
-<h2>Change your password</h2>
+<div class="mb-6 text-center">
+  <span class="text-3xl font-bold">
+    パスワード再発行
+  </span>
+</div>
 
-<%= form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :put }) do |f| %>
-  <%= render "customer/shared/error_messages", resource: resource %>
-  <%= f.hidden_field :reset_password_token %>
+<div class='flex flex-wrap justify-center mb-6'>
+  <%= form_for(resource, as: resource_name, url: password_path(resource_name), html: { "data-turbo": "false", method: :put, class: "w-11/12 md:w-10/12 xl:w-8/12" }) do |f| %>
+    <%= render "customer/shared/error_messages", resource: resource %>
+    <%= f.hidden_field :reset_password_token %>
 
-  <div class="field">
-    <%= f.label :password, "New password" %><br />
-    <% if @minimum_password_length %>
-      <em>(<%= @minimum_password_length %> characters minimum)</em><br />
-    <% end %>
-    <%= f.password_field :password, autofocus: true, autocomplete: "new-password" %>
-  </div>
+    <div class="mb-6 w-full">
+      <%= f.label :password, "新しいパスワード", class: "mb-2 block text-sm text-gray-600" %>
+      <% if @minimum_password_length %>
+        <em>(<%= @minimum_password_length %> 文字以上で設定してください)</em><br />
+      <% end %>
+      <%= f.password_field :password, autofocus: true, autocomplete: "new-password", class: "w-full rounded-md border border-gray-300 py-2 px-3 placeholder:text-gray-300 focus:border-indigo-300 focus:outline-none focus:ring focus:ring-indigo-100" %>
+    </div>
 
-  <div class="field">
-    <%= f.label :password_confirmation, "Confirm new password" %><br />
-    <%= f.password_field :password_confirmation, autocomplete: "new-password" %>
-  </div>
+    <div class="mb-6 w-full">
+      <%= f.label :password_confirmation, "パスワード確認用", class: "mb-2 block text-sm text-gray-600" %>
+      <%= f.password_field :password_confirmation, autocomplete: "new-password", class: "w-full rounded-md border border-gray-300 py-2 px-3 placeholder:text-gray-300 focus:border-indigo-300 focus:outline-none focus:ring focus:ring-indigo-100" %>
+    </div>
 
-  <div class="actions">
-    <%= f.submit "Change my password" %>
-  </div>
-<% end %>
+    <%= f.submit "パスワード再発行", class: "inline-flex w-full items-center justify-center rounded-md bg-indigo-500 p-3 text-white duration-100 ease-in-out hover:bg-indigo-600 focus:outline-none cursor-pointer" %>
+  <% end %>
+</div>
 
-<%= render "customer/shared/links" %>
+<div class="text-center">
+  <%= render "customer/shared/links" %>
+</div>

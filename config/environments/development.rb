@@ -41,16 +41,10 @@ Rails.application.configure do
 
   config.action_mailer.perform_caching = false
 
-  config.action_mailer.default_url_options = {  host: "localhost", port: 8000 }
-  config.action_mailer.delivery_method = :smtp
-  config.action_mailer.smtp_settings = {
-    address: "smtp.gmail.com",
-    domain: "gmail.com",
-    port: 587,
-    user_name: Rails.application.credentials.dig(:gmail, :email),
-    password: Rails.application.credentials.dig(:gmail, :app_password),
-    authentication: :login
-  }
+  config.action_mailer.default_url_options = { host: "localhost", port: 8000 }
+  config.action_mailer.delivery_method = :letter_opener_web
+  config.action_mailer.perform_deliveries = true
+  config.action_mailer.raise_delivery_errors = true
 
   # Print deprecation notices to the Rails logger.
   config.active_support.deprecation = :log
@@ -88,4 +82,6 @@ Rails.application.configure do
   # Docker supports a bunch of ranges so let's just support everything. This
   # isn't insecure due to only running in development.
   config.web_console.allowed_ips = ["0.0.0.0/0"]
+
+  config.active_job.queue_adapter = :inline
 end

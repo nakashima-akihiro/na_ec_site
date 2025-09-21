@@ -1,12 +1,16 @@
 require 'sidekiq/web'
 
 Rails.application.routes.draw do
+  if Rails.env.development?
+    mount LetterOpenerWeb::Engine, at: "/letter_opener"
+  end
   devise_for :admins, controllers: {
     sessions: 'admin/sessions'
   }
   devise_for :customers, controllers: {
     sessions: 'customer/sessions',
-    registrations: 'customer/registrations'
+    registrations: 'customer/registrations',
+    passwords: 'customer/passwords'
   }
   namespace :admin do
     root to: 'pages#home'
