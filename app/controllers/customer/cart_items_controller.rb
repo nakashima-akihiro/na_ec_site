@@ -5,6 +5,7 @@ class Customer::CartItemsController < ApplicationController
   def index
     @cart_items = current_customer.cart_items
     @total = @cart_items.inject(0) { |sum, cart_item| sum + cart_item.line_total }
+    @shipping_fee = @total >= FREE_SHIPPING_THRESHOLD ? 0 : POSTAGE
   end
 
   def create

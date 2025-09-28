@@ -11,6 +11,8 @@ class Customer::CheckoutsController < ApplicationController
   private
 
   def create_session(line_items)
+    total = current_customer.cart_items.inject(0) { |sum, cart_item| sum + cart_item.line_total }
+    shipping_fee = total >= FREE_SHIPPING_THRESHOLD ? 0 : POSTAGE
     Stripe::Checkout::Session.create(
       client_reference_id: current_customer.id,
       customer_email: current_customer.email,
@@ -25,7 +27,7 @@ class Customer::CheckoutsController < ApplicationController
           shipping_rate_data: {
             type: 'fixed_amount',
             fixed_amount: {
-              amount: 500,
+              amount: shipping_fee,
               currency: 'jpy'
             },
             display_name: 'Single rate'
