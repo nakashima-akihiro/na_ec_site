@@ -1,5 +1,3 @@
-require 'sidekiq/web'
-
 Rails.application.routes.draw do
   if Rails.env.development?
     mount LetterOpenerWeb::Engine, at: "/letter_opener"
@@ -18,9 +16,6 @@ Rails.application.routes.draw do
     resources :orders, only: %i[show update]
     resources :customers, only: %i[index show update]
   resources :categories, only: [:index, :new, :create, :destroy]
-    authenticate :admin do
-      mount Sidekiq::Web => '/sidekiq'
-    end
   end
   scope module: :customer do
     resources :products, only: %i[index show]

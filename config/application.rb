@@ -18,14 +18,11 @@ module Hello
     logger.formatter = config.log_formatter
     config.logger    = ActiveSupport::TaggedLogging.new(logger)
 
-    # Set Redis as the back-end for the cache.
-    config.cache_store = :redis_cache_store, {
-      url: ENV.fetch('REDIS_URL') { 'redis://redis:6379/1' },
-      namespace: 'cache'
-    }
+    # Use memory store for cache (Redis不使用)
+    config.cache_store = :memory_store
 
-    # Set Sidekiq as the back-end for Active Job.
-    config.active_job.queue_adapter = :sidekiq
+    # Use async adapter for Active Job (Sidekiq不使用)
+    config.active_job.queue_adapter = :async
 
     # Mount Action Cable outside the main process or domain.
     config.action_cable.mount_path = nil
