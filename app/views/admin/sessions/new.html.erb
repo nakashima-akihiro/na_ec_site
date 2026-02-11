@@ -1,20 +1,30 @@
-<div class="mb-6 text-center">
-  <span class="text-3xl font-bold">
-    Sign In
-  </span>
-</div>
-
-<div class='flex flex-wrap justify-center mb-6'>
-  <%= form_for(resource, as: resource_name, url: session_path(resource_name), html: { class: "w-11/12 md:w-10/12 xl:w-8/12" }, data: { turbo: false } )  do |f| %>
-    <%= render "admin/shared/error_messages", resource: resource %>
-    <div class="mb-6">
-      <%= f.label :email, class: "mb-2 block text-sm text-gray-600" %>
-      <%= f.email_field :email, class: "w-full rounded-md border border-gray-300 py-2 px-3 placeholder:text-gray-300 focus:border-indigo-300 focus:outline-none focus:ring focus:ring-indigo-100" %>
+<div class="min-h-screen bg-gray-50 flex items-center justify-center px-4 py-12">
+  <div class="w-full max-w-sm">
+    <div class="bg-white border border-gray-200 p-8">
+      <h1 class="text-xl font-semibold text-gray-900 mb-6">管理画面ログイン</h1>
+      
+      <%= form_for(resource, as: resource_name, url: session_path(resource_name), data: { turbo: false }, class: "space-y-4") do |f| %>
+        <%= render "admin/shared/error_messages", resource: resource %>
+        
+        <div>
+          <%= f.label :email, class: "block text-sm text-gray-700 mb-1" %>
+          <%= f.email_field :email, 
+              autofocus: true,
+              autocomplete: "email",
+              class: "w-full border border-gray-300 px-3 py-2 text-sm focus:outline-none focus:border-gray-500" %>
+        </div>
+        
+        <div>
+          <%= f.label :password, class: "block text-sm text-gray-700 mb-1" %>
+          <%= f.password_field :password, 
+              autocomplete: "current-password",
+              class: "w-full border border-gray-300 px-3 py-2 text-sm focus:outline-none focus:border-gray-500" %>
+        </div>
+        
+        <div class="pt-2">
+          <%= f.submit "ログイン", class: "w-full bg-gray-800 text-white px-4 py-2 text-sm hover:bg-gray-900 cursor-pointer" %>
+        </div>
+      <% end %>
     </div>
-    <div class="mb-6">
-      <%= f.label :password, class: "mb-2 block text-sm text-gray-600" %>
-      <%= f.password_field :password, class: "w-full rounded-md border border-gray-300 py-2 px-3 placeholder:text-gray-300 focus:border-indigo-300 focus:outline-none focus:ring focus:ring-indigo-100" %>
-    </div>
-    <%= f.submit 'Sign In', class: "inline-flex w-full items-center justify-center rounded-md bg-indigo-500 p-3 text-white duration-100 ease-in-out hover:bg-indigo-600 focus:outline-none cursor-pointer" %>
-  <% end %>
+  </div>
 </div>

@@ -1,42 +1,103 @@
-<div class="mb-6 text-center">
-  <span class="text-3xl font-bold">
-    Edit Product
-  </span>
-</div>
-<div class='flex flex-wrap justify-center'>
-  <%= form_with model: @product, url: admin_product_path(@product), local: true, class: "xl:w-8/12 md:w-10/12", data: { turbo: false }  do |f| %>
-    <%= render "admin/shared/error_messages", resource: @product %>
-    <div class="mb-6">
-      <%= f.label :name, class: "mb-2 block text-sm text-gray-600" %>
-      <%= f.text_field :name, class: "w-full rounded-md border border-gray-300 py-2 px-3 placeholder:text-gray-300 focus:border-indigo-300 focus:outline-none focus:ring focus:ring-indigo-100" %>
-    </div>
-    <div class="mb-6">
-      <%= f.label :description, class: "mb-2 block text-sm text-gray-600" %>
-      <%= f.text_area :description, rows: "5", class: "w-full rounded-md border border-gray-300 py-2 px-3 placeholder:text-gray-300 focus:border-indigo-300 focus:outline-none focus:ring focus:ring-indigo-100" %>
-    </div>
-    <div class="mb-6">
-      <%= f.label :price, class: "mb-2 block text-sm text-gray-600" %>
-      <%= f.number_field :price, class: "w-full rounded-md border border-gray-300 py-2 px-3 placeholder:text-gray-300 focus:border-indigo-300 focus:outline-none focus:ring focus:ring-indigo-100" %>
-    </div>
-    <div class="mb-6">
-      <%= f.label :stock, class: "mb-2 block text-sm text-gray-600" %>
-      <%= f.number_field :stock, class: "w-full rounded-md border border-gray-300 py-2 px-3 placeholder:text-gray-300 focus:border-indigo-300 focus:outline-none focus:ring focus:ring-indigo-100" %>
-    </div>
-    <div class="mb-6">
-      <%= f.label :image, class: "mb-2 block text-sm text-gray-600" %>
-      <%= f.file_field :image, class: "block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none" %>
-    </div>
-    <div class="mb-6">
-      <%= f.label :category_ids, "カテゴリ", class: "mb-2 block text-sm text-gray-600" %>
-      <div class="flex flex-wrap gap-2">
-        <% Category.all.each do |category| %>
-          <label class="inline-flex items-center">
-            <%= check_box_tag "product[category_ids][]", category.id, @product.category_ids.include?(category.id), id: "product_category_#{category.id}" %>
-            <span class="ml-2 text-gray-700"><%= category.name %></span>
-          </label>
+<div class="min-h-screen bg-gray-50 pt-24 pb-12 px-4 sm:px-6 lg:px-8">
+  <div class="max-w-3xl mx-auto">
+    <!-- ページヘッダー -->
+    <div class="mb-8">
+      <div class="flex items-center justify-between mb-4">
+        <h1 class="text-3xl font-bold text-gray-900">商品編集</h1>
+        <%= link_to admin_product_path(@product), class: "text-sm text-gray-600 hover:text-gray-900 inline-flex items-center" do %>
+          <i class="fa-solid fa-arrow-left mr-2"></i>
+          商品詳細に戻る
         <% end %>
       </div>
     </div>
-    <%= f.submit class: "inline-flex w-full items-center justify-center rounded-md bg-indigo-500 p-3 text-white duration-100 ease-in-out hover:bg-indigo-600 focus:outline-none" %>
-  <% end %>
+
+    <!-- フォーム -->
+    <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-8">
+      <%= form_with model: @product, url: admin_product_path(@product), local: true, data: { turbo: false }, class: "space-y-6" do |f| %>
+        <%= render "admin/shared/error_messages", resource: @product %>
+
+        <div>
+          <%= f.label :name, class: "block text-sm font-medium text-gray-700 mb-2" do %>
+            <i class="fa-solid fa-tag mr-2 text-gray-500"></i>
+            商品名
+          <% end %>
+          <%= f.text_field :name, 
+              placeholder: "商品名を入力",
+              class: "w-full rounded-lg border border-gray-300 py-2.5 px-4 text-gray-900 placeholder-gray-400 focus:border-gray-500 focus:outline-none focus:ring-1 focus:ring-gray-500 transition-colors" %>
+        </div>
+
+        <div>
+          <%= f.label :description, class: "block text-sm font-medium text-gray-700 mb-2" do %>
+            <i class="fa-solid fa-align-left mr-2 text-gray-500"></i>
+            商品説明
+          <% end %>
+          <%= f.text_area :description, 
+              rows: 5,
+              placeholder: "商品説明を入力",
+              class: "w-full rounded-lg border border-gray-300 py-2.5 px-4 text-gray-900 placeholder-gray-400 focus:border-gray-500 focus:outline-none focus:ring-1 focus:ring-gray-500 transition-colors" %>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div>
+            <%= f.label :price, class: "block text-sm font-medium text-gray-700 mb-2" do %>
+              <i class="fa-solid fa-yen-sign mr-2 text-gray-500"></i>
+              価格
+            <% end %>
+            <%= f.number_field :price, 
+                placeholder: "0",
+                class: "w-full rounded-lg border border-gray-300 py-2.5 px-4 text-gray-900 placeholder-gray-400 focus:border-gray-500 focus:outline-none focus:ring-1 focus:ring-gray-500 transition-colors" %>
+          </div>
+
+          <div>
+            <%= f.label :stock, class: "block text-sm font-medium text-gray-700 mb-2" do %>
+              <i class="fa-solid fa-box mr-2 text-gray-500"></i>
+              在庫数
+            <% end %>
+            <%= f.number_field :stock, 
+                placeholder: "0",
+                class: "w-full rounded-lg border border-gray-300 py-2.5 px-4 text-gray-900 placeholder-gray-400 focus:border-gray-500 focus:outline-none focus:ring-1 focus:ring-gray-500 transition-colors" %>
+          </div>
+        </div>
+
+        <div>
+          <%= f.label :image, class: "block text-sm font-medium text-gray-700 mb-2" do %>
+            <i class="fa-solid fa-image mr-2 text-gray-500"></i>
+            商品画像
+          <% end %>
+          <% if @product.image.attached? %>
+            <div class="mb-3">
+              <div class="w-32 h-32 rounded-lg overflow-hidden bg-gray-100">
+                <%= image_tag @product.image, class: "w-full h-full object-cover" %>
+              </div>
+              <p class="mt-2 text-xs text-gray-500">現在の画像</p>
+            </div>
+          <% end %>
+          <%= f.file_field :image, 
+              class: "block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-medium file:bg-gray-100 file:text-gray-700 hover:file:bg-gray-200" %>
+        </div>
+
+        <div>
+          <%= f.label :category_ids, class: "block text-sm font-medium text-gray-700 mb-2" do %>
+            <i class="fa-solid fa-list mr-2 text-gray-500"></i>
+            カテゴリ
+          <% end %>
+          <div class="flex flex-wrap gap-4 mt-2">
+            <% Category.all.each do |category| %>
+              <label class="inline-flex items-center px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50 cursor-pointer">
+                <%= check_box_tag "product[category_ids][]", category.id, @product.category_ids.include?(category.id), id: "product_category_#{category.id}", class: "rounded border-gray-300 text-gray-600 focus:ring-gray-500" %>
+                <span class="ml-2 text-sm text-gray-700"><%= category.name %></span>
+              </label>
+            <% end %>
+          </div>
+        </div>
+
+        <div class="pt-4 border-t border-gray-200 flex gap-3">
+          <%= f.submit "更新する", class: "flex-1 inline-flex items-center justify-center px-6 py-3 bg-gray-700 text-white font-medium rounded-lg hover:bg-gray-800 transition-colors cursor-pointer" %>
+          <%= link_to admin_product_path(@product), class: "px-6 py-3 border border-gray-300 text-gray-700 font-medium rounded-lg hover:bg-gray-50 transition-colors" do %>
+            キャンセル
+          <% end %>
+        </div>
+      <% end %>
+    </div>
+  </div>
 </div>
