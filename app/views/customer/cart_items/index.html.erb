@@ -1,97 +1,142 @@
-<div class="mb-8 text-center">
-  <span class="text-3xl font-bold">
-    カート一覧
-  </span>
-</div>
-<% if @cart_items.count == 0 %>
-  <div class='mx-auto max-w-3xl'>
-    <p class='mb-8 text-xl text-center'>買い物かごは空です</p>
-    <div class='flex justify-center'>
-      <%= link_to products_path, class: 'group inline-flex items-center justify-center overflow-hidden rounded-lg bg-gradient-to-br from-purple-600 to-blue-500 p-0.5 font-medium  hover:text-white focus:ring-4 focus:ring-blue-300 group-hover:from-purple-600 group-hover:to-blue-500' do %>
-        <span class='rounded-md bg-white px-5 py-2.5 transition-all duration-75 ease-in group-hover:bg-opacity-0'>
+<div class="min-h-screen bg-gradient-to-br from-gray-50 via-white to-orange-50 pt-24 pb-12 px-4 sm:px-6 lg:px-8">
+  <div class="max-w-6xl mx-auto">
+    <!-- ヘッダーセクション -->
+    <div class="text-center mb-8">
+      <div class="flex justify-center mb-4">
+        <div class="w-16 h-16 bg-gradient-to-br from-orange-500 to-red-500 rounded-full flex items-center justify-center shadow-lg">
+          <i class="fa-solid fa-cart-shopping text-white text-2xl"></i>
+        </div>
+      </div>
+      <h1 class="text-3xl font-bold text-gray-900 mb-2">ショッピングカート</h1>
+    </div>
+
+    <% if @cart_items.count == 0 %>
+      <!-- 空のカート -->
+      <div class="bg-white rounded-2xl shadow-xl p-12 border border-gray-100 text-center">
+        <div class="mb-6">
+          <i class="fa-solid fa-cart-arrow-down text-6xl text-gray-300"></i>
+        </div>
+        <h2 class="text-2xl font-bold text-gray-900 mb-4">買い物かごは空です</h2>
+        <p class="text-gray-600 mb-8">お気に入りの商品をカートに追加してください</p>
+        <%= link_to products_path, class: "inline-flex items-center px-6 py-3 bg-gradient-to-r from-orange-500 to-red-500 text-white font-semibold rounded-lg shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-200" do %>
+          <i class="fa-solid fa-pizza-slice mr-2"></i>
           商品を探す
-        </span>
-      <% end %>
-    </div>
-  </div>
-<% else %>
-  <div class="xl:flex">
-    <div class="px-6 flex justify-center mb-7 xl:w-2/3">
-      <div class="overflow-x-auto">
-        <table>
-          <thead>
-            <tr class="bg-gray-100 text-gray-600 uppercase text-sm leading-normal">
-              <th class="p-3 whitespace-nowrap">商品名</th>
-              <th class="p-3 whitespace-nowrap">価格</th>
-              <th class="p-3 whitespace-nowrap">数量</th>
-              <th class="p-3 whitespace-nowrap">合計</th>
-              <th class="p-3 whitespace-nowrap"></th>
-            </tr>
-          </thead>
-          <tbody class="text-center">
-            <% @cart_items.each do |cart_item| %>
-              <tr class="focus:outline-none h-16 border border-gray-100 rounded">
-                <td class="p-3 whitespace-nowrap">
-                  <div class="flex flex-col justify-center mx-6">
-                    <span class=""><%= cart_item.product.name %></span>
-                    <span class="text-sm"><%= cart_item.product.stock %> 個在庫あり</span>
-                  </div>
-                </td>
-                <td class="p-3">
-                  <span class=""><%= number_to_currency(cart_item.product.price, unit: "¥", strip_insignificant_zeros: true) %></span>
-                </td>
-                <td class="p-3">
-                  <div class="flex justify-center">
-                    <%= link_to decrease_cart_item_path(cart_item), data: { "turbo-method": :patch }, class: "flex justify-center" do %>
-                      <svg class="fill-current text-red-500 w-3" viewBox="0 0 448 512">
-                        <path d="M416 208H32c-17.67 0-32 14.33-32 32v32c0 17.67 14.33 32 32 32h384c17.67 0 32-14.33 32-32v-32c0-17.67-14.33-32-32-32z"/>
-                      </svg>
+        <% end %>
+      </div>
+    <% else %>
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 lg:gap-8">
+        <!-- カートアイテム一覧 -->
+        <div class="lg:col-span-2 space-y-4">
+          <% @cart_items.each do |cart_item| %>
+            <div class="bg-white rounded-xl shadow-lg p-6 border border-gray-100 hover:shadow-xl transition-shadow duration-200">
+              <div class="flex flex-col sm:flex-row gap-4">
+                <!-- 商品画像 -->
+                <div class="flex-shrink-0">
+                  <%= link_to product_path(cart_item.product), class: "block" do %>
+                    <div class="w-24 h-24 sm:w-32 sm:h-32 rounded-lg overflow-hidden bg-gray-100">
+                      <%= image_tag cart_item.product.image, class: "w-full h-full object-cover" %>
+                    </div>
+                  <% end %>
+                </div>
+
+                <!-- 商品情報 -->
+                <div class="flex-1 flex flex-col justify-between">
+                  <div>
+                    <%= link_to product_path(cart_item.product), class: "hover:text-orange-600 transition-colors" do %>
+                      <h3 class="text-lg font-semibold text-gray-900 mb-2"><%= cart_item.product.name %></h3>
                     <% end %>
-                    <span class="mx-5 "><%= cart_item.quantity %></span>
-                    <% unless cart_item.quantity >= cart_item.product.stock %>
-                      <%= link_to increase_cart_item_path(cart_item), data: { "turbo-method": :patch }, class: "flex justify-center" do %>
-                        <svg class="fill-current text-blue-500 w-3" viewBox="0 0 448 512">
-                          <path d="M416 208H272V64c0-17.67-14.33-32-32-32h-32c-17.67 0-32 14.33-32 32v144H32c-17.67 0-32 14.33-32 32v32c0 17.67 14.33 32 32 32h144v144c0 17.67 14.33 32 32 32h32c17.67 0 32-14.33 32-32V304h144c17.67 0 32-14.33 32-32v-32c0-17.67-14.33-32-32-32z"/>
-                        </svg>
+                    <p class="text-sm text-gray-500 mb-2">
+                      <i class="fa-solid fa-box mr-1"></i>
+                      在庫: <%= cart_item.product.stock %>個
+                    </p>
+                    <p class="text-xl font-bold text-gray-900">
+                      <%= number_to_currency(cart_item.product.price, unit: "¥", strip_insignificant_zeros: true) %>
+                    </p>
+                  </div>
+
+                  <!-- 数量調整と削除 -->
+                  <div class="flex items-center justify-between mt-4 pt-4 border-t border-gray-200">
+                    <div class="flex items-center space-x-3">
+                      <%= link_to decrease_cart_item_path(cart_item), data: { "turbo-method": :patch }, class: "w-8 h-8 flex items-center justify-center rounded-full bg-gray-100 hover:bg-gray-200 text-gray-700 transition-colors" do %>
+                        <i class="fa-solid fa-minus text-xs"></i>
                       <% end %>
+                      <span class="text-lg font-semibold text-gray-900 w-8 text-center"><%= cart_item.quantity %></span>
+                      <% unless cart_item.quantity >= cart_item.product.stock %>
+                        <%= link_to increase_cart_item_path(cart_item), data: { "turbo-method": :patch }, class: "w-8 h-8 flex items-center justify-center rounded-full bg-orange-100 hover:bg-orange-200 text-orange-600 transition-colors" do %>
+                          <i class="fa-solid fa-plus text-xs"></i>
+                        <% end %>
+                      <% else %>
+                        <span class="w-8 h-8 flex items-center justify-center rounded-full bg-gray-100 text-gray-400 cursor-not-allowed">
+                          <i class="fa-solid fa-plus text-xs"></i>
+                        </span>
+                      <% end %>
+                    </div>
+                    <div class="text-right">
+                      <p class="text-sm text-gray-500 mb-1">小計</p>
+                      <p class="text-xl font-bold text-gray-900">
+                        <%= number_to_currency(cart_item.line_total, unit: "¥", strip_insignificant_zeros: true) %>
+                      </p>
+                    </div>
+                    <%= link_to cart_item_path(cart_item), data: { "turbo-method": :delete, "turbo_confirm": 'この商品をカートから削除しますか？' }, class: "ml-4 p-2 text-red-500 hover:bg-red-50 rounded-lg transition-colors" do %>
+                      <i class="fa-solid fa-trash-can"></i>
                     <% end %>
                   </div>
-                </td>
-                <td class="p-3">
-                  <span class=""><%= number_to_currency(cart_item.line_total, unit: "¥", strip_insignificant_zeros: true) %></span>
-                </td>
-                <td class="p-3">
-                  <div class="flex justify-center">
-                    <%= link_to cart_item_path(cart_item), data: { "turbo-method": :delete, "turbo_confirm": 'Are you sure?' } do %>
-                      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-trash text-red-500" viewBox="0 0 16 16">
-                        <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z"/>
-                        <path fill-rule="evenodd" d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z"/>
-                      </svg>
-                    <% end %>
-                  </div>
-                </td>
-              </tr>
+                </div>
+              </div>
+            </div>
+          <% end %>
+        </div>
+
+        <!-- 注文サマリー -->
+        <div class="lg:col-span-1">
+          <div class="bg-white rounded-xl shadow-xl p-6 border border-gray-100 sticky top-24">
+            <h2 class="text-xl font-bold text-gray-900 mb-6 flex items-center">
+              <i class="fa-solid fa-receipt mr-2 text-orange-500"></i>
+              注文サマリー
+            </h2>
+            
+            <div class="space-y-4 mb-6">
+              <div class="flex justify-between items-center py-2">
+                <span class="text-gray-600">小計</span>
+                <span class="text-lg font-semibold text-gray-900">
+                  <%= number_to_currency(@total, unit: "¥", strip_insignificant_zeros: true) %>
+                </span>
+              </div>
+              
+              <div class="flex justify-between items-start py-2 border-t border-gray-200">
+                <div>
+                  <span class="text-gray-600">送料</span>
+                  <p class="text-xs text-gray-500 mt-1">
+                    <%= FREE_SHIPPING_THRESHOLD %>円以上で送料無料
+                  </p>
+                </div>
+                <span class="text-lg font-semibold text-gray-900">
+                  <%= number_to_currency(@shipping_fee, unit: "¥", strip_insignificant_zeros: true) %>
+                </span>
+              </div>
+              
+              <div class="flex justify-between items-center py-4 border-t-2 border-gray-300">
+                <span class="text-xl font-bold text-gray-900">合計</span>
+                <span class="text-2xl font-bold text-orange-600">
+                  <%= number_to_currency(@total + @shipping_fee, unit: "¥", strip_insignificant_zeros: true) %>
+                </span>
+              </div>
+            </div>
+
+            <%= button_to checkouts_path, data: { turbo: false }, class: "w-full bg-gradient-to-r from-orange-500 to-red-500 text-white font-semibold py-4 px-6 rounded-lg shadow-lg hover:shadow-xl transform hover:scale-[1.02] transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2 cursor-pointer text-lg flex items-center justify-center" do %>
+              <i class="fa-solid fa-credit-card mr-2"></i>
+              決済に進む
             <% end %>
-          </tbody>
-        </table>
+
+            <div class="mt-4 text-center">
+              <%= link_to products_path, class: "text-sm text-gray-600 hover:text-orange-600 transition-colors inline-flex items-center" do %>
+                <i class="fa-solid fa-arrow-left mr-2"></i>
+                買い物を続ける
+              <% end %>
+            </div>
+          </div>
+        </div>
       </div>
-    </div>
-    <div class="px-6 xl:w-1/3">
-      <div class="flex justify-between my-6">
-        <span class="font-semibold text-lg uppercase">小計</span>
-        <span class="font-semibold text-lg"><%= number_to_currency(@total, unit: "¥", strip_insignificant_zeros: true) %></span>
-      </div>
-      <div class="flex justify-between my-6">
-        <span class="font-semibold text-lg uppercase">送料 <span class="text-xs font-normal text-gray-500">※<%= FREE_SHIPPING_THRESHOLD %>円以上のご注文で送料無料</span></span>
-        <span class="font-semibold text-lg"><%= number_to_currency(@shipping_fee, unit: "¥", strip_insignificant_zeros: true) %></span>
-      </div>
-      <div class="flex justify-between my-6">
-        <span class="font-semibold text-lg uppercase">合計</span>
-        <span class="font-semibold text-lg"><%= number_to_currency(@total + @shipping_fee, unit: "¥", strip_insignificant_zeros: true) %></span>
-      </div>
-      <%= button_to checkouts_path, data: { turbo: false }, class:'w-full cursor-pointer focus:outline-none text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2' do %>
-        Checkout
-      <% end %>
-    </div>
+    <% end %>
   </div>
-<% end %>
+</div>

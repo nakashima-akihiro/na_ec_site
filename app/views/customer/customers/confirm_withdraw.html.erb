@@ -1,16 +1,40 @@
-<div class="bg-white p-6 md:mx-auto">
-  <div class="text-center">
-    <p class="md:text-2xl text-base  font-semibold text-center">Are you sure?</p>
-    <p class="text-gray-600 my-2">If you withdraw from Ecommerce, you will no longer be able to log in with this account.</p>
-    <div class="flex items-center justify-center space-x-5">
-      <div class="py-8 text-center">
-        <%= link_to withdraw_customers_path, data: { "turbo-method": :patch }, class: "px-5 py-2.5 focus:outline-none text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-md" do %>
-          Withdraw
-        <% end %>
+<div class="min-h-screen bg-gradient-to-br from-gray-50 via-white to-orange-50 pt-24 pb-12 px-4 sm:px-6 lg:px-8">
+  <div class="max-w-md mx-auto">
+    <!-- ヘッダーセクション -->
+    <div class="text-center mb-8">
+      <div class="flex justify-center mb-4">
+        <div class="w-16 h-16 bg-gradient-to-br from-red-500 to-red-600 rounded-full flex items-center justify-center shadow-lg">
+          <i class="fa-solid fa-exclamation-triangle text-white text-2xl"></i>
+        </div>
       </div>
-      <div class="py-8 text-center">
-        <%= link_to edit_customer_registration_path, class: "px-5 py-2.5  bg-white border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 font-medium rounded-lg text-md" do %>
-          Cancel
+      <h1 class="text-3xl font-bold text-gray-900 mb-2">アカウント退会</h1>
+    </div>
+
+    <!-- 確認カード -->
+    <div class="bg-white rounded-2xl shadow-xl p-8 border border-gray-100">
+      <div class="text-center mb-8">
+        <div class="mb-6">
+          <i class="fa-solid fa-user-slash text-5xl text-red-500"></i>
+        </div>
+        <h2 class="text-2xl font-bold text-gray-900 mb-4">本当に退会しますか？</h2>
+        <div class="bg-red-50 border-2 border-red-200 rounded-lg p-4 mb-6">
+          <p class="text-sm text-red-800 leading-relaxed">
+            <i class="fa-solid fa-info-circle mr-2"></i>
+            退会すると、このアカウントでログインできなくなります。<br>
+            注文履歴などの情報も閲覧できなくなります。
+          </p>
+        </div>
+      </div>
+
+      <!-- アクションボタン -->
+      <div class="space-y-4">
+        <%= link_to withdraw_customers_path, data: { "turbo-method": :patch, "turbo_confirm": "本当に退会しますか？この操作は取り消せません。" }, class: "w-full inline-flex items-center justify-center px-6 py-3 bg-gradient-to-r from-red-600 to-red-700 text-white font-semibold rounded-lg shadow-lg hover:shadow-xl transform hover:scale-[1.02] transition-all duration-200" do %>
+          <i class="fa-solid fa-user-xmark mr-2"></i>
+          退会する
+        <% end %>
+        <%= link_to edit_customer_registration_path, class: "w-full inline-flex items-center justify-center px-6 py-3 bg-white border-2 border-gray-300 text-gray-700 font-semibold rounded-lg hover:bg-gray-50 transition-all duration-200" do %>
+          <i class="fa-solid fa-arrow-left mr-2"></i>
+          キャンセル
         <% end %>
       </div>
     </div>
