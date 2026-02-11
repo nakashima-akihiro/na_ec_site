@@ -53,7 +53,7 @@
       transform: translateY(0) scale(1);
     }
   </style>
-  <body class="flex flex-col h-screen justify-between">
+  <body class="flex flex-col min-h-screen">
     <!-- Google Tag Manager (noscript) -->
     <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-KVMDC54M"
     height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
@@ -236,7 +236,7 @@
         </div>
       </div>
     <% end %>
-    <main class="<%= controller_path == 'customer/products' && action_name == 'index' ? 'pt-[66px]' : '' %>">
+    <main class="flex-1 <%= controller_path == 'customer/products' && action_name == 'index' ? 'pt-[66px]' : '' %>">
       <%= yield %>
     </main>
   </body>

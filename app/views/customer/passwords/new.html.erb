@@ -1,22 +1,43 @@
-<div class="mb-6 text-center">
-  <span class="text-3xl font-bold">
-    パスワード再発行
-  </span>
-</div>
-
-<div class='flex flex-wrap justify-center mb-6'>
-  <%= form_for(resource, as: resource_name, url: password_path(resource_name), html: { "data-turbo": "false", method: :post, class: "w-11/12 md:w-10/12 xl:w-8/12" }) do |f| %>
-    <%= render "customer/shared/error_messages", resource: resource %>
-
-    <div class="mb-6 w-full">
-      <%= f.label :email, class: "mb-2 block text-sm text-gray-600" %>
-      <%= f.email_field :email, autofocus: true, autocomplete: "email", class: "w-full rounded-md border border-gray-300 py-2 px-3 placeholder:text-gray-300 focus:border-indigo-300 focus:outline-none focus:ring focus:ring-indigo-100" %>
+<div class="min-h-screen bg-gradient-to-br from-gray-50 via-white to-orange-50 pt-24 pb-12 px-4 sm:px-6 lg:px-8">
+  <div class="max-w-md mx-auto">
+    <!-- ヘッダーセクション -->
+    <div class="text-center mb-8">
+      <div class="flex justify-center mb-4">
+        <div class="w-16 h-16 bg-gradient-to-br from-orange-500 to-red-500 rounded-full flex items-center justify-center shadow-lg">
+          <i class="fa-solid fa-key text-white text-2xl"></i>
+        </div>
+      </div>
+      <h1 class="text-3xl font-bold text-gray-900 mb-2">パスワード再発行</h1>
+      <p class="text-gray-600">メールアドレスを入力してください</p>
     </div>
 
-    <%= f.submit "パスワード再発行", class: "inline-flex w-full items-center justify-center rounded-md bg-indigo-500 p-3 text-white duration-100 ease-in-out hover:bg-indigo-600 focus:outline-none cursor-pointer" %>
-  <% end %>
-</div>
+    <!-- フォームカード -->
+    <div class="bg-white rounded-2xl shadow-xl p-8 border border-gray-100">
+      <%= form_for(resource, as: resource_name, url: password_path(resource_name), html: { "data-turbo": "false", method: :post, class: "space-y-6" }) do |f| %>
+        <%= render "customer/shared/error_messages", resource: resource %>
 
-<div class="text-center">
-  <%= render "customer/shared/links" %>
+        <!-- メールフィールド -->
+        <div>
+          <%= f.label :email, class: "block text-sm font-semibold text-gray-700 mb-2" do %>
+            <i class="fa-solid fa-envelope mr-2 text-orange-500"></i>
+            メールアドレス
+          <% end %>
+          <%= f.email_field :email, 
+              autofocus: true, 
+              autocomplete: "email",
+              placeholder: "example@email.com",
+              class: "w-full rounded-lg border-2 border-gray-200 py-3 px-4 pl-10 text-gray-900 placeholder-gray-400 focus:border-orange-500 focus:outline-none focus:ring-2 focus:ring-orange-500/20 transition-all duration-200" %>
+        </div>
+
+        <!-- 送信ボタン -->
+        <%= f.submit "パスワード再発行メールを送信", 
+            class: "w-full bg-gradient-to-r from-orange-500 to-red-500 text-white font-semibold py-3.5 px-6 rounded-lg shadow-lg hover:shadow-xl transform hover:scale-[1.02] transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2 cursor-pointer" %>
+      <% end %>
+    </div>
+
+    <!-- リンクセクション -->
+    <div class="mt-6 text-center">
+      <%= render "customer/shared/links" %>
+    </div>
+  </div>
 </div>
