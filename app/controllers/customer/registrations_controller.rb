@@ -52,6 +52,9 @@ class Customer::RegistrationsController < Devise::RegistrationsController
   end
 
   def check_captcha
+    # 開発環境でreCAPTCHAが無効化されている場合はスキップ
+    return if Rails.env.development? && ENV.fetch('RECAPTCHA_ENABLED', 'false') != 'true'
+    
     self.resource = resource_class.new sign_up_params
     resource.validate
     unless verify_recaptcha(model: resource)
