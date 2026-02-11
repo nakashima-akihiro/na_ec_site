@@ -45,14 +45,127 @@
       opacity: 0;
       visibility: hidden;
       transform: translateY(-0.5rem) scale(0.95);
-      transition: all 0.3s;
+      transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+      pointer-events: none;
     }
     .dropdown.open .dropdown-menu {
       opacity: 1;
       visibility: visible;
       transform: translateY(0) scale(1);
+      pointer-events: auto;
+    }
+    /* ドロップダウン外側クリックで閉じる */
+    .dropdown {
+      position: relative;
+    }
+    /* ヘッダーのアニメーション */
+    @keyframes slideDown {
+      from {
+        transform: translateY(-100%);
+        opacity: 0;
+      }
+      to {
+        transform: translateY(0);
+        opacity: 1;
+      }
+    }
+    header {
+      animation: slideDown 0.3s ease-out;
     }
   </style>
+  <script>
+    // ドロップダウンメニューの制御
+    (function() {
+      let dropdownHandlers = {
+        toggle: null,
+        outside: null,
+        link: null
+      };
+      
+      function toggleDropdown(event) {
+        const button = event.target.closest('.dropdown-toggle');
+        if (!button) return;
+        
+        event.preventDefault();
+        event.stopPropagation();
+        
+        const dropdown = button.closest('.dropdown');
+        if (!dropdown) return;
+        
+        const isOpen = dropdown.classList.contains('open');
+        
+        // 全てのドロップダウンを閉じる
+        document.querySelectorAll('.dropdown').forEach(function(d) {
+          d.classList.remove('open');
+        });
+        
+        // クリックしたドロップダウンを開く/閉じる
+        if (!isOpen) {
+          dropdown.classList.add('open');
+        }
+      }
+      
+      function closeDropdownsOnOutsideClick(event) {
+        const clickedDropdown = event.target.closest('.dropdown');
+        document.querySelectorAll('.dropdown').forEach(function(dropdown) {
+          if (dropdown !== clickedDropdown) {
+            dropdown.classList.remove('open');
+          }
+        });
+      }
+      
+      function closeDropdownOnLinkClick(event) {
+        const link = event.target.closest('.dropdown-menu a');
+        if (link) {
+          const dropdown = link.closest('.dropdown');
+          if (dropdown) {
+            setTimeout(function() {
+              dropdown.classList.remove('open');
+            }, 100);
+          }
+        }
+      }
+      
+      // イベントリスナーの設定
+      function setupDropdowns() {
+        // 既存のイベントリスナーを削除
+        if (dropdownHandlers.toggle) {
+          document.removeEventListener('click', dropdownHandlers.toggle, true);
+        }
+        if (dropdownHandlers.outside) {
+          document.removeEventListener('click', dropdownHandlers.outside);
+        }
+        if (dropdownHandlers.link) {
+          document.removeEventListener('click', dropdownHandlers.link);
+        }
+        
+        // 新しいイベントリスナーを設定
+        dropdownHandlers.toggle = toggleDropdown;
+        dropdownHandlers.outside = closeDropdownsOnOutsideClick;
+        dropdownHandlers.link = closeDropdownOnLinkClick;
+        
+        document.addEventListener('click', dropdownHandlers.toggle, true);
+        document.addEventListener('click', dropdownHandlers.outside);
+        document.addEventListener('click', dropdownHandlers.link);
+      }
+      
+      // 初期化
+      function init() {
+        if (document.readyState === 'loading') {
+          document.addEventListener('DOMContentLoaded', setupDropdowns);
+        } else {
+          setupDropdowns();
+        }
+      }
+      
+      init();
+      
+      // Turbo対応
+      document.addEventListener('turbo:load', setupDropdowns);
+      document.addEventListener('turbo:render', setupDropdowns);
+      document.addEventListener('turbo:frame-load', setupDropdowns);
+    })();
+  </script>
   <body class="flex flex-col min-h-screen">
     <!-- Google Tag Manager (noscript) -->
     <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-KVMDC54M"
@@ -96,20 +209,20 @@
                 <li class='no-underline'>
                   <div class="flex items-center justify-center">
                     <div class="relative inline-block text-left dropdown">
-                      <button class="inline-flex justify-center w-full px-4 py-2 text-sm font-medium leading-5 text-gray-700 transition duration-150 ease-in-out  rounded-md" type="button" aria-haspopup="true" aria-expanded="true" aria-controls="headlessui-menu-items-117">
-                        <svg class="h-6 w-6" id="dropdownDividerButton" data-dropdown-toggle="dropdownDivider" viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg">
-                          <path fill="white" d="M288 320a224 224 0 1 0 448 0 224 224 0 1 0-448 0zm544 608H160a32 32 0 0 1-32-32v-96a160 160 0 0 1 160-160h448a160 160 0 0 1 160 160v96a32 32 0 0 1-32 32z">
-                          </path>
+                      <button class="dropdown-toggle p-2.5 rounded-lg text-white hover:bg-gray-800 hover:text-orange-400 transition-all duration-200 focus:outline-none" type="button" aria-haspopup="true" aria-expanded="false">
+                        <svg class="h-5 w-5" viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg">
+                          <path fill="currentColor" d="M288 320a224 224 0 1 0 448 0 224 224 0 1 0-448 0zm544 608H160a32 32 0 0 1-32-32v-96a160 160 0 0 1 160-160h448a160 160 0 0 1 160 160v96a32 32 0 0 1-32 32z"></path>
                         </svg>
                       </button>
-                      <div class="opacity-0 invisible dropdown-menu transition-all duration-300 transform origin-top-right -translate-y-2 scale-95">
-                        <div class="absolute right-0 w-56 mt-2 origin-top-right bg-white border border-gray-200 divide-y divide-gray-100 rounded-md shadow-lg outline-none" aria-labelledby="headlessui-menu-button-1" id="headlessui-menu-items-117" role="menu">
-                          <div class="px-4 py-3">
-                            <p class="text-sm leading-5">Signed in as</p>
-                            <p class="text-sm font-medium leading-5  truncate"><%= current_admin.email %></p>
+                      <div class="dropdown-menu">
+                        <div class="absolute right-0 w-56 mt-2 bg-white border border-gray-200 rounded-lg shadow-xl overflow-hidden z-50">
+                          <div class="px-4 py-3 bg-gradient-to-r from-gray-50 to-white border-b border-gray-100">
+                            <p class="text-xs text-gray-500 uppercase tracking-wide">Signed in as</p>
+                            <p class="text-sm font-semibold text-gray-900 truncate mt-1"><%= current_admin.email %></p>
                           </div>
                           <div class="py-1">
-                            <%= link_to destroy_admin_session_path, data: { turbo_method: :delete }, class: "text-gray-700 flex justify-between w-full px-4 py-2 text-sm leading-5 text-left" do %>
+                            <%= link_to destroy_admin_session_path, data: { turbo_method: :delete }, onclick: "this.closest('.dropdown').classList.remove('open')", class: "flex items-center px-4 py-2.5 text-sm text-gray-700 hover:bg-red-50 hover:text-red-600 transition-colors" do %>
+                              <i class="fa-solid fa-right-from-bracket mr-2"></i>
                               Sign out
                             <% end %>
                           </div>
@@ -139,28 +252,30 @@
                 <li class='no-underline'>
                   <div class="flex items-center justify-center">
                     <div class="relative inline-block text-left dropdown">
-                      <button class="inline-flex justify-center w-full px-4 py-2 text-sm font-medium leading-5 text-gray-700 transition duration-150 ease-in-out  rounded-md" type="button" aria-haspopup="true" aria-expanded="true" aria-controls="headlessui-menu-items-117">
-                        <svg class="h-6 w-6" id="dropdownDividerButton" data-dropdown-toggle="dropdownDivider" viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg">
-                          <path fill="white" d="M288 320a224 224 0 1 0 448 0 224 224 0 1 0-448 0zm544 608H160a32 32 0 0 1-32-32v-96a160 160 0 0 1 160-160h448a160 160 0 0 1 160 160v96a32 32 0 0 1-32 32z">
-                          </path>
+                      <button class="dropdown-toggle p-2.5 rounded-lg text-white hover:bg-gray-800 hover:text-orange-400 transition-all duration-200 focus:outline-none" type="button" aria-haspopup="true" aria-expanded="false">
+                        <svg class="h-5 w-5" viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg">
+                          <path fill="currentColor" d="M288 320a224 224 0 1 0 448 0 224 224 0 1 0-448 0zm544 608H160a32 32 0 0 1-32-32v-96a160 160 0 0 1 160-160h448a160 160 0 0 1 160 160v96a32 32 0 0 1-32 32z"></path>
                         </svg>
                       </button>
-                      <div class="opacity-0 invisible dropdown-menu transition-all duration-300 transform origin-top-right -translate-y-2 scale-95">
-                        <div class="absolute right-0 w-56 mt-2 origin-top-right bg-white border border-gray-200 divide-y divide-gray-100 rounded-md shadow-lg outline-none" aria-labelledby="headlessui-menu-button-1" id="headlessui-menu-items-117" role="menu">
-                          <div class="px-4 py-3">
-                            <p class="text-sm leading-5">Signed in as</p>
-                            <p class="text-sm font-medium leading-5  truncate"><%= current_customer.email %></p>
+                      <div class="dropdown-menu">
+                        <div class="absolute right-0 w-56 mt-2 bg-white border border-gray-200 rounded-lg shadow-xl overflow-hidden z-50">
+                          <div class="px-4 py-3 bg-gradient-to-r from-gray-50 to-white border-b border-gray-100">
+                            <p class="text-xs text-gray-500 uppercase tracking-wide">Signed in as</p>
+                            <p class="text-sm font-semibold text-gray-900 truncate mt-1"><%= current_customer.email %></p>
                           </div>
                           <div class="py-1">
-                            <%= link_to edit_customer_registration_path, class: "text-gray-700 flex justify-between w-full px-4 py-2 text-sm leading-5 text-left" do %>
+                            <%= link_to edit_customer_registration_path, onclick: "this.closest('.dropdown').classList.remove('open')", class: "flex items-center px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 hover:text-orange-600 transition-colors" do %>
+                              <i class="fa-solid fa-user-gear mr-2"></i>
                               Account settings
                             <% end %>
-                            <%= link_to orders_path, class: "text-gray-700 flex justify-between w-full px-4 py-2 text-sm leading-5 text-left" do %>
+                            <%= link_to orders_path, onclick: "this.closest('.dropdown').classList.remove('open')", class: "flex items-center px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 hover:text-orange-600 transition-colors" do %>
+                              <i class="fa-solid fa-receipt mr-2"></i>
                               Order histories
                             <% end %>
                           </div>
-                          <div class="py-1">
-                            <%= link_to destroy_customer_session_path, data: { turbo_method: :delete }, class: "text-gray-700 flex justify-between w-full px-4 py-2 text-sm leading-5 text-left" do %>
+                          <div class="py-1 border-t border-gray-100">
+                            <%= link_to destroy_customer_session_path, data: { turbo_method: :delete }, onclick: "this.closest('.dropdown').classList.remove('open')", class: "flex items-center px-4 py-2.5 text-sm text-gray-700 hover:bg-red-50 hover:text-red-600 transition-colors" do %>
+                              <i class="fa-solid fa-right-from-bracket mr-2"></i>
                               Sign out
                             <% end %>
                           </div>
