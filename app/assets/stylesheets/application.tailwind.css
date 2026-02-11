@@ -33,3 +33,24 @@ body {
   font-style: normal;
   color: #1a1a1a;
 }
+
+/* 商品カードのホバーアニメーション */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.product-card {
+  animation: fadeInUp 0.5s ease-out;
+}
+
+/* スムーズなスクロール */
+html {
+  scroll-behavior: smooth;
+}

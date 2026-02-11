@@ -1,50 +1,76 @@
-<div class="w-full h-[64vw] max-h-[272px]">
+<!-- ヒーローセクション -->
+<div class="w-full h-[64vw] max-h-[320px] relative overflow-hidden">
   <div class="swiper heroSwiper h-full">
     <div class="swiper-wrapper">
-      <div class="swiper-slide" style="background-image: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url('https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?ixlib=rb-4.0.3');"></div>
-      <div class="swiper-slide" style="background-image: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url('https://images.unsplash.com/photo-1604068549290-dea0e4a305ca?ixlib=rb-4.0.3');"></div>
-      <div class="swiper-slide" style="background-image: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url('https://images.unsplash.com/photo-1593560708920-61dd98c46a4e?ixlib=rb-4.0.3');"></div>
+      <div class="swiper-slide relative" style="background-image: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.3)), url('https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?ixlib=rb-4.0.3'); background-size: cover; background-position: center;"></div>
+      <div class="swiper-slide relative" style="background-image: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.3)), url('https://images.unsplash.com/photo-1604068549290-dea0e4a305ca?ixlib=rb-4.0.3'); background-size: cover; background-position: center;"></div>
+      <div class="swiper-slide relative" style="background-image: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.3)), url('https://images.unsplash.com/photo-1593560708920-61dd98c46a4e?ixlib=rb-4.0.3'); background-size: cover; background-position: center;"></div>
     </div>
   </div>
 </div>
-<div class="px-4 py-4 max-w-[425px] mx-auto">
-  <div class="mb-4 text-center">
-    <span class="text-3xl font-bold libertinus-serif-bold">
+
+<!-- メインコンテンツ -->
+<div class="px-4 py-8 max-w-[425px] mx-auto">
+  <!-- タイトルセクション -->
+  <div class="mb-8 text-center">
+    <h2 class="text-4xl font-bold text-gray-900 mb-2 tracking-tight">
       Menu
-    </span>
+    </h2>
+    <div class="w-16 h-1 bg-orange-500 mx-auto rounded-full"></div>
   </div>
-  <div class="flex flex-wrap gap-2 mb-2 justify-center">
+
+  <!-- カテゴリーフィルター -->
+  <div class="flex flex-wrap gap-3 mb-6 justify-center">
     <% Category.all.each do |category| %>
       <% selected = params[:category_id].to_i == category.id %>
-      <%= link_to category.name, products_path(category_id: category.id), class: "px-3 py-1 rounded text-sm " + (selected ? "bg-orange-400 text-white" : "bg-gray-200 text-gray-700 hover:bg-indigo-200") %>
+      <%= link_to category.name, products_path(category_id: category.id), 
+          class: "px-5 py-2 rounded-full text-sm font-medium transition-all duration-200 transform hover:scale-105 " + 
+                 (selected ? "bg-orange-500 text-white shadow-lg shadow-orange-500/50" : "bg-gray-100 text-gray-700 hover:bg-gray-200") %>
     <% end %>
   </div>
-  <div class="flex justify-center">
-    <div class="mb-3 w-fit px-4 py-1.5 rounded text-sm <%= @sort === "latest" ? "font-bold" : "" %>">
-      <%= link_to '新着順', products_path({latest: true, category_id: params[:category_id]}.compact) %>
-    </div>
-    <div class="border-l mb-3 w-fit px-4 py-1.5 rounded text-sm <%= @sort === "price_high_to_low" ? "font-bold" : "" %>">
-      <%= link_to '価格が高い順', products_path({price_high_to_low: true, category_id: params[:category_id]}.compact) %>
-    </div>
-    <div class="border-l mb-3 w-fit px-4 py-1.5 rounded text-sm <%= @sort === "price_low_to_high" ? "font-bold" : "" %>">
-      <%= link_to '価格が安い順', products_path({price_low_to_high: true, category_id: params[:category_id]}.compact) %>
+
+  <!-- ソート機能 -->
+  <div class="flex justify-center items-center mb-8 bg-gray-50 rounded-lg p-2">
+    <div class="flex items-center space-x-1">
+      <div class="px-4 py-2 rounded-md text-sm transition-all duration-200 <%= @sort === "latest" ? "bg-white text-orange-600 font-semibold shadow-sm" : "text-gray-600 hover:text-gray-900" %>">
+        <%= link_to '新着順', products_path({latest: true, category_id: params[:category_id]}.compact), class: "block" %>
+      </div>
+      <div class="h-4 w-px bg-gray-300"></div>
+      <div class="px-4 py-2 rounded-md text-sm transition-all duration-200 <%= @sort === "price_high_to_low" ? "bg-white text-orange-600 font-semibold shadow-sm" : "text-gray-600 hover:text-gray-900" %>">
+        <%= link_to '価格が高い順', products_path({price_high_to_low: true, category_id: params[:category_id]}.compact), class: "block" %>
+      </div>
+      <div class="h-4 w-px bg-gray-300"></div>
+      <div class="px-4 py-2 rounded-md text-sm transition-all duration-200 <%= @sort === "price_low_to_high" ? "bg-white text-orange-600 font-semibold shadow-sm" : "text-gray-600 hover:text-gray-900" %>">
+        <%= link_to '価格が安い順', products_path({price_low_to_high: true, category_id: params[:category_id]}.compact), class: "block" %>
+      </div>
     </div>
   </div>
-  <div class='flex flex-wrap justify-between'>
+
+  <!-- 商品グリッド -->
+  <div class='grid grid-cols-2 gap-4 mb-8'>
     <% @products.each do |product| %>
-      <div class="rounded-lg w-[44vw] max-w-[187px]">
-        <%= link_to product_path(product) do %>
-          <div class="w-full h-[30.933vw] overflow-hidden max-h-[131px]">
-            <%= image_tag product.image, class: "object-cover w-full h-full" %>
+      <div class="group rounded-xl overflow-hidden bg-white shadow-sm hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1">
+        <%= link_to product_path(product), class: "block" do %>
+          <div class="w-full h-[30.933vw] max-h-[180px] overflow-hidden bg-gray-100 relative">
+            <%= image_tag product.image, class: "object-cover w-full h-full transition-transform duration-500 group-hover:scale-110" %>
+            <% if product.stock <= 0 %>
+              <div class="absolute inset-0 bg-black/50 flex items-center justify-center">
+                <span class="bg-red-600 text-white px-3 py-1 rounded-full text-xs font-bold">SOLD OUT</span>
+              </div>
+            <% end %>
           </div>
-          <div class="py-2 pb-4">
-            <p class="tracking-tight  mb-1"><%= product.name %></p>
+          <div class="p-3">
+            <h3 class="text-sm font-semibold text-gray-900 mb-2 line-clamp-2 min-h-[2.5rem] group-hover:text-orange-600 transition-colors">
+              <%= product.name %>
+            </h3>
             <div class="flex justify-between items-center">
-              <span class="text-sm "><%= number_to_currency(product.price, unit: "¥", strip_insignificant_zeros: true) %></span>
+              <span class="text-base font-bold text-gray-900">
+                <%= number_to_currency(product.price, unit: "¥", strip_insignificant_zeros: true) %>
+              </span>
               <% if product.stock > 0 %>
-                <span class="bg-blue-100 text-blue-800 text-xs p-1 rounded">在庫あり</span>
-              <% else %>
-                <span class="bg-red-100 text-red-800 text-xs p-1 rounded">sold out</span>
+                <span class="bg-green-50 text-green-700 text-xs px-2 py-1 rounded-full font-medium border border-green-200">
+                  在庫あり
+                </span>
               <% end %>
             </div>
           </div>
@@ -66,5 +92,28 @@
     },
     loop: true,
     speed: 1000,
+    pagination: {
+      el: '.swiper-pagination',
+      clickable: true,
+      dynamicBullets: true,
+    },
   });
 </script>
+
+<style>
+  .swiper-pagination-bullet {
+    background: rgba(255, 255, 255, 0.5);
+    opacity: 1;
+  }
+  .swiper-pagination-bullet-active {
+    background: white;
+    width: 24px;
+    border-radius: 4px;
+  }
+  .line-clamp-2 {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+</style>
