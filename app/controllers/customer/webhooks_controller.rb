@@ -4,7 +4,9 @@ class Customer::WebhooksController < ApplicationController
   def create
     payload = request.body.read
     sig_header = request.env['HTTP_STRIPE_SIGNATURE']
-    endpoint_secret = Rails.application.credentials.dig(:stripe, :endpoint_secret)
+    # 環境変数から読み込む（優先）
+    # 設定されていない場合はRails credentialsから読み込む
+    endpoint_secret = ENV['STRIPE_WEBHOOK_SECRET'] || Rails.application.credentials.dig(:stripe, :endpoint_secret)
     event = nil
 
     begin
