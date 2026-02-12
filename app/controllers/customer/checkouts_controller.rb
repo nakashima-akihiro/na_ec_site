@@ -12,7 +12,7 @@ class Customer::CheckoutsController < ApplicationController
 
   def create_session(line_items)
     total = current_customer.cart_items.inject(0) { |sum, cart_item| sum + cart_item.line_total }
-    shipping_fee = total >= FREE_SHIPPING_THRESHOLD ? 0 : POSTAGE
+    shipping_fee = total >= SiteSetting.free_shipping_threshold ? 0 : SiteSetting.postage
     Stripe::Checkout::Session.create(
       client_reference_id: current_customer.id,
       customer_email: current_customer.email,

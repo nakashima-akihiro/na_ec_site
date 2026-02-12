@@ -124,6 +124,13 @@ ActiveRecord::Schema[7.0].define(version: 2025_09_19_151506) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "site_settings", force: :cascade do |t|
+    t.integer "postage", default: 500, null: false
+    t.integer "free_shipping_threshold", default: 5000, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "cart_items", "customers"

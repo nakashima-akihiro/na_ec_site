@@ -1,6 +1,19 @@
 ---
 ja:
+  admin:
+    site_settings:
+      title: 送料設定
+      description: 送料と送料無料の閾値を設定します
+      postage_hint: 送料（円）
+      free_shipping_threshold_hint: この金額以上で送料無料（円）
+      update_success: 送料設定を更新しました。
   activerecord:
+    models:
+      site_setting: 送料設定
+    attributes:
+      site_setting:
+        postage: 送料
+        free_shipping_threshold: 送料無料となる金額
     errors:
       messages:
         record_invalid: 'バリデーションに失敗しました: %{errors}'

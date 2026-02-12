@@ -12,10 +12,11 @@ Rails.application.routes.draw do
   }
   namespace :admin do
     root to: 'pages#home'
+    resource :site_settings, only: %i[edit update], path: 'site_settings'
     resources :products, only: %i[index show new create edit update destroy]
     resources :orders, only: %i[show update]
     resources :customers, only: %i[index show update]
-  resources :categories, only: [:index, :new, :create, :destroy]
+    resources :categories, only: [:index, :new, :create, :destroy]
   end
   scope module: :customer do
     resources :products, only: %i[index show]

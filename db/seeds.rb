@@ -8,6 +8,9 @@ Customer.find_or_create_by(email: "saito.kazuma@gmail.com") { |customer| custome
 p '==================== admin create ===================='
 Admin.find_or_create_by(email: "admin@gmail.com") { |admin| admin.password = "password" }
 
+p '==================== site settings create ===================='
+SiteSetting.instance
+
 p '==================== product create ===================='
 product1 = Product.new(
   name: "Wool Comfort Hat",

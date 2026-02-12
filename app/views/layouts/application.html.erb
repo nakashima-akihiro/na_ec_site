@@ -221,6 +221,10 @@
                             <p class="text-sm font-semibold text-gray-900 truncate mt-1"><%= current_admin.email %></p>
                           </div>
                           <div class="py-1">
+                            <%= link_to edit_admin_site_settings_path, onclick: "this.closest('.dropdown').classList.remove('open')", class: "flex items-center px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 hover:text-gray-900 transition-colors" do %>
+                              <i class="fa-solid fa-truck mr-2"></i>
+                              送料設定
+                            <% end %>
                             <%= link_to destroy_admin_session_path, data: { turbo_method: :delete }, onclick: "this.closest('.dropdown').classList.remove('open')", class: "flex items-center px-4 py-2.5 text-sm text-gray-700 hover:bg-red-50 hover:text-red-600 transition-colors" do %>
                               <i class="fa-solid fa-right-from-bracket mr-2"></i>
                               ログアウト
