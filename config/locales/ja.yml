@@ -142,7 +142,7 @@ ja:
     currency:
       format:
         delimiter: ","
-        format: "%n%u"
+        format: "%u%n"
         negative_format: "-%u%n"
         precision: 0
         separator: "."
