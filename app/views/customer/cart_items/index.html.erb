@@ -123,6 +123,18 @@
               </div>
             </div>
 
+            <% unless customer_signed_in? %>
+              <div class="mb-4 p-3 bg-blue-50 border border-blue-100 rounded-lg">
+                <p class="text-sm text-blue-800">
+                  <i class="fa-solid fa-circle-info mr-1"></i>
+                  会員登録いただくと次回以降の購入が便利です
+                </p>
+                <%= link_to new_customer_registration_path, class: "text-sm font-medium text-blue-600 hover:text-blue-800 underline mt-1 inline-block" do %>
+                  会員登録はこちら →
+                <% end %>
+              </div>
+            <% end %>
+
             <%= button_to checkouts_path, data: { turbo: false }, class: "w-full bg-gradient-to-r from-orange-500 to-red-500 text-white font-semibold py-4 px-6 rounded-lg shadow-lg hover:shadow-xl transform hover:scale-[1.02] transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2 cursor-pointer text-lg flex items-center justify-center" do %>
               <i class="fa-solid fa-credit-card mr-2"></i>
               決済に進む

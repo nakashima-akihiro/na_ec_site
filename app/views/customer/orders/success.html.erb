@@ -10,10 +10,27 @@
 
       <!-- メッセージ -->
       <h1 class="text-3xl font-bold text-gray-900 mb-4">ご注文ありがとうございました！</h1>
-      <p class="text-lg text-gray-600 mb-8">
+      <p class="text-lg text-gray-600 mb-6">
         お支払いが完了しました。<br>
         ご注文の確認メールをお送りいたします。
       </p>
+
+      <% unless customer_signed_in? %>
+        <div class="mb-8 p-4 bg-blue-50 border border-blue-100 rounded-xl text-left">
+          <p class="text-sm text-blue-800 font-medium mb-2">
+            <i class="fa-solid fa-star mr-1"></i>
+            次回以降の購入を便利にするために会員登録をおすすめします
+          </p>
+          <ul class="text-sm text-blue-700 space-y-1 mb-4 ml-4">
+            <li>・注文履歴の確認ができます</li>
+            <li>・お届け先の入力が省略できます</li>
+          </ul>
+          <%= link_to new_customer_registration_path, class: "inline-flex items-center px-4 py-2 bg-blue-600 text-white text-sm font-medium rounded-lg hover:bg-blue-700 transition-colors" do %>
+            <i class="fa-solid fa-user-plus mr-2"></i>
+            会員登録する
+          <% end %>
+        </div>
+      <% end %>
 
       <!-- アクションボタン -->
       <div class="space-y-4">
