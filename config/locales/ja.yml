@@ -10,10 +10,14 @@ ja:
   activerecord:
     models:
       site_setting: 送料設定
+      hero_image: トップ画像
     attributes:
       site_setting:
         postage: 送料
         free_shipping_threshold: 送料無料となる金額
+      hero_image:
+        image: 画像
+        position: 表示順
     errors:
       messages:
         record_invalid: 'バリデーションに失敗しました: %{errors}'

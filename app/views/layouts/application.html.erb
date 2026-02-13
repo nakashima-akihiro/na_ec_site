@@ -218,6 +218,10 @@
                             <i class="fa-solid fa-truck mr-3 w-5 text-center"></i>
                             送料設定
                           <% end %>
+                          <%= link_to admin_hero_images_path, onclick: "this.closest('.dropdown').classList.remove('open')", class: "flex items-center px-4 py-3 text-sm text-gray-700 hover:bg-gray-50 hover:text-gray-900 transition-colors" do %>
+                            <i class="fa-solid fa-images mr-3 w-5 text-center"></i>
+                            トップ画像設定
+                          <% end %>
                         </div>
                         <div class="py-1 border-t border-gray-200">
                           <%= link_to destroy_admin_session_path, data: { turbo_method: :delete }, onclick: "this.closest('.dropdown').classList.remove('open')", class: "flex items-center px-4 py-3 text-sm text-gray-700 hover:bg-red-50 hover:text-red-600 transition-colors" do %>

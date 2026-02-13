@@ -1,0 +1,48 @@
+<div class="min-h-screen bg-gray-50 pt-24 pb-12 px-4 sm:px-6 lg:px-8">
+  <div class="max-w-2xl mx-auto">
+    <!-- ページヘッダー -->
+    <div class="mb-8">
+      <div class="flex items-center justify-between mb-4">
+        <h1 class="text-3xl font-bold text-gray-900">トップ画像を編集</h1>
+        <%= link_to admin_hero_images_path, class: "text-sm text-gray-600 hover:text-gray-900 inline-flex items-center" do %>
+          <i class="fa-solid fa-arrow-left mr-2"></i>
+          一覧に戻る
+        <% end %>
+      </div>
+    </div>
+
+    <!-- フォーム -->
+    <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-8">
+      <%= form_with model: @hero_image, url: admin_hero_image_path(@hero_image), method: :patch, local: true, data: { turbo: false }, class: "space-y-6" do |f| %>
+        <%= render "admin/shared/error_messages", resource: @hero_image %>
+
+        <div>
+          <%= f.label :image, class: "block text-sm font-medium text-gray-700 mb-2" do %>
+            <i class="fa-solid fa-image mr-2 text-gray-500"></i>
+            画像
+          <% end %>
+          <% if @hero_image.image.attached? %>
+            <div class="mb-4">
+              <p class="text-xs text-gray-500 mb-2">現在の画像</p>
+              <%= image_tag @hero_image.image.variant(resize_to_limit: [400, 300]), class: "rounded-lg border border-gray-200 max-h-48 object-contain" %>
+            </div>
+          <% end %>
+          <%= f.file_field :image,
+              accept: "image/*",
+              class: "block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-medium file:bg-gray-100 file:text-gray-700 hover:file:bg-gray-200" %>
+          <p class="mt-1 text-xs text-gray-500">画像を変更しない場合は空のままにしてください</p>
+        </div>
+
+        <div>
+          <%= f.label :position, "表示順", class: "block text-sm font-medium text-gray-700 mb-2" %>
+          <%= f.number_field :position, min: 0,
+              class: "w-full rounded-lg border border-gray-300 py-2.5 px-4 text-gray-900 focus:border-gray-500 focus:outline-none focus:ring-1 focus:ring-gray-500 transition-colors" %>
+        </div>
+
+        <div class="pt-4 border-t border-gray-200">
+          <%= f.submit "更新する", class: "w-full inline-flex items-center justify-center px-6 py-3 bg-gray-700 text-white font-medium rounded-lg hover:bg-gray-800 transition-colors cursor-pointer" %>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>

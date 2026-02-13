@@ -1,5 +1,11 @@
 class Customer::ProductsController < ApplicationController
   def index
+    begin
+      @hero_images = HeroImage.ordered
+    rescue ActiveRecord::StatementInvalid
+      @hero_images = HeroImage.none
+    end
+
     products = Product.all
     if params[:category_id].present?
       @category = Category.find(params[:category_id])

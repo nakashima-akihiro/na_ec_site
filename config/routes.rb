@@ -13,6 +13,7 @@ Rails.application.routes.draw do
   namespace :admin do
     root to: 'pages#home'
     resource :site_settings, only: %i[edit update], path: 'site_settings'
+    resources :hero_images, only: %i[index create edit update destroy], path: 'hero_images'
     resources :products, only: %i[index show new create edit update destroy]
     resources :orders, only: %i[show update]
     resources :customers, only: %i[index show update]

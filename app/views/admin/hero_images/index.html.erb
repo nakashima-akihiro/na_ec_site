@@ -1,0 +1,93 @@
+<div class="min-h-screen bg-gray-50 pt-24 pb-12 px-4 sm:px-6 lg:px-8">
+  <div class="max-w-3xl mx-auto">
+    <!-- ページヘッダー -->
+    <div class="mb-8">
+      <div class="flex items-center justify-between mb-4">
+        <h1 class="text-3xl font-bold text-gray-900">トップ画像設定</h1>
+        <%= link_to admin_root_path, class: "text-sm text-gray-600 hover:text-gray-900 inline-flex items-center" do %>
+          <i class="fa-solid fa-arrow-left mr-2"></i>
+          ダッシュボードに戻る
+        <% end %>
+      </div>
+      <p class="text-gray-600">トップページのヒーロー画像を管理します。最大5枚まで登録できます。</p>
+    </div>
+
+    <!-- 新規追加フォーム（5枚未満の場合） -->
+    <% if @hero_images.size < 5 %>
+      <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6 mb-6">
+        <h2 class="text-lg font-semibold text-gray-900 mb-4">画像を追加</h2>
+        <%= form_with model: @hero_image, url: admin_hero_images_path, local: true, data: { turbo: false }, class: "space-y-4" do |f| %>
+          <%= render "admin/shared/error_messages", resource: @hero_image %>
+
+          <div>
+            <%= f.label :image, class: "block text-sm font-medium text-gray-700 mb-2" do %>
+              <i class="fa-solid fa-image mr-2 text-gray-500"></i>
+              画像
+            <% end %>
+            <%= f.file_field :image,
+                accept: "image/*",
+                class: "block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-medium file:bg-gray-100 file:text-gray-700 hover:file:bg-gray-200" %>
+          </div>
+
+          <div>
+            <%= f.label :position, "表示順", class: "block text-sm font-medium text-gray-700 mb-2" %>
+            <%= f.number_field :position, min: 0, value: @hero_images.size,
+                class: "w-full rounded-lg border border-gray-300 py-2.5 px-4 text-gray-900 focus:border-gray-500 focus:outline-none focus:ring-1 focus:ring-gray-500 transition-colors" %>
+          </div>
+
+          <%= f.submit "追加する", class: "inline-flex items-center px-4 py-2 bg-gray-700 text-white font-medium rounded-lg hover:bg-gray-800 transition-colors cursor-pointer" %>
+        <% end %>
+      </div>
+    <% else %>
+      <div class="bg-amber-50 border border-amber-200 rounded-lg p-4 mb-6">
+        <p class="text-sm text-amber-800 font-medium">
+          <i class="fa-solid fa-info-circle mr-2"></i>
+          トップ画像は最大5枚までです。追加する場合は既存の画像を削除してください。
+        </p>
+      </div>
+    <% end %>
+
+    <!-- 登録済み画像一覧 -->
+    <div class="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden">
+      <div class="px-6 py-4 border-b border-gray-200">
+        <h2 class="text-lg font-semibold text-gray-900">登録済み画像（<%= @hero_images.size %>/5枚）</h2>
+      </div>
+      <div class="divide-y divide-gray-200">
+        <% if @hero_images.any? %>
+          <% @hero_images.each_with_index do |hero_image, index| %>
+            <div class="flex items-center gap-4 p-4 hover:bg-gray-50">
+              <div class="flex-shrink-0 w-24 h-16 rounded-lg overflow-hidden bg-gray-100">
+                <% if hero_image.image.attached? %>
+                  <%= image_tag hero_image.image.variant(resize_to_limit: [96, 64]), class: "w-full h-full object-cover" %>
+                <% else %>
+                  <div class="w-full h-full flex items-center justify-center text-gray-400">
+                    <i class="fa-solid fa-image text-2xl"></i>
+                  </div>
+                <% end %>
+              </div>
+              <div class="flex-1 min-w-0">
+                <p class="text-sm font-medium text-gray-900">画像 <%= index + 1 %>（表示順: <%= hero_image.position %>）</p>
+              </div>
+              <div class="flex items-center gap-2">
+                <%= link_to edit_admin_hero_image_path(hero_image), class: "inline-flex items-center px-3 py-1.5 text-sm text-gray-700 bg-gray-100 rounded-lg hover:bg-gray-200 transition-colors" do %>
+                  <i class="fa-solid fa-pen mr-2"></i>
+                  編集
+                <% end %>
+                <%= button_to admin_hero_image_path(hero_image), method: :delete, data: { turbo_confirm: "この画像を削除しますか？" }, class: "inline-flex items-center px-3 py-1.5 text-sm text-red-700 bg-red-50 rounded-lg hover:bg-red-100 transition-colors" do %>
+                  <i class="fa-solid fa-trash mr-2"></i>
+                  削除
+                <% end %>
+              </div>
+            </div>
+          <% end %>
+        <% else %>
+          <div class="px-6 py-12 text-center text-gray-500">
+            <i class="fa-solid fa-images text-4xl mb-4 text-gray-300"></i>
+            <p>登録済みの画像はありません</p>
+            <p class="text-sm mt-1">上記のフォームから画像を追加してください</p>
+          </div>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>
