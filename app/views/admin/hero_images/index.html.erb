@@ -58,7 +58,7 @@
             <div class="flex items-center gap-4 p-4 hover:bg-gray-50">
               <div class="flex-shrink-0 w-24 h-16 rounded-lg overflow-hidden bg-gray-100">
                 <% if hero_image.image.attached? %>
-                  <%= image_tag hero_image.image.variant(resize_to_limit: [96, 64]), class: "w-full h-full object-cover" %>
+                  <%= image_tag hero_image.image, class: "w-full h-full object-cover" %>
                 <% else %>
                   <div class="w-full h-full flex items-center justify-center text-gray-400">
                     <i class="fa-solid fa-image text-2xl"></i>

@@ -24,7 +24,7 @@
           <% if @hero_image.image.attached? %>
             <div class="mb-4">
               <p class="text-xs text-gray-500 mb-2">現在の画像</p>
-              <%= image_tag @hero_image.image.variant(resize_to_limit: [400, 300]), class: "rounded-lg border border-gray-200 max-h-48 object-contain" %>
+              <%= image_tag @hero_image.image, class: "rounded-lg border border-gray-200 max-h-48 object-contain" %>
             </div>
           <% end %>
           <%= f.file_field :image,
