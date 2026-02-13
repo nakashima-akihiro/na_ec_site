@@ -77,18 +77,25 @@
         <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
           <h2 class="text-lg font-semibold text-gray-900 mb-6">顧客情報</h2>
           <div class="space-y-4">
-            <div class="pb-4 border-b border-gray-200">
-              <p class="text-sm text-gray-600 mb-1">お名前</p>
-              <p class="font-medium text-gray-900"><%= @order.customer.name %></p>
-            </div>
-            <div class="pb-4 border-b border-gray-200">
-              <p class="text-sm text-gray-600 mb-1">メールアドレス</p>
-              <p class="font-medium text-gray-900"><%= @order.customer.email %></p>
-            </div>
-            <div>
-              <p class="text-sm text-gray-600 mb-1">過去の注文数</p>
-              <p class="font-medium text-gray-900"><%= @order.customer.orders.count %>件</p>
-            </div>
+            <% if @order.customer.present? %>
+              <div class="pb-4 border-b border-gray-200">
+                <p class="text-sm text-gray-600 mb-1">お名前</p>
+                <p class="font-medium text-gray-900"><%= @order.customer.name %></p>
+              </div>
+              <div class="pb-4 border-b border-gray-200">
+                <p class="text-sm text-gray-600 mb-1">メールアドレス</p>
+                <p class="font-medium text-gray-900"><%= @order.customer.email %></p>
+              </div>
+              <div>
+                <p class="text-sm text-gray-600 mb-1">過去の注文数</p>
+                <p class="font-medium text-gray-900"><%= @order.customer.orders.count %>件</p>
+              </div>
+            <% else %>
+              <div class="pb-4 border-b border-gray-200">
+                <p class="text-sm text-gray-500 mb-1">ゲスト注文</p>
+                <p class="font-medium text-gray-900"><%= @order.guest_email %></p>
+              </div>
+            <% end %>
           </div>
         </div>
 

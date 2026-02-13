@@ -1,5 +1,5 @@
 class Customer::OrdersController < ApplicationController
-  before_action :authenticate_customer!
+  before_action :authenticate_customer!, except: [:success]
 
   def index
     @orders = current_customer.orders.latest
@@ -9,5 +9,7 @@ class Customer::OrdersController < ApplicationController
     @order = current_customer.orders.find(params[:id])
   end
 
-  def success; end
+  def success
+    clear_guest_cart
+  end
 end

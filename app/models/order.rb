@@ -1,5 +1,7 @@
 class Order < ApplicationRecord
-  belongs_to :customer
+  belongs_to :customer, optional: true
+  validate :customer_or_guest_email_present
+
   enum status: {
     waiting_payment: 0,
     confirm_payment: 1,
@@ -16,4 +18,16 @@ class Order < ApplicationRecord
   scope :delivered, -> { where(status: 'delivered') }
 
   scope :created_today, -> { where('orders.created_at >= ?', Time.zone.now.beginning_of_day) }
+
+  def display_email
+    customer&.email || guest_email
+  end
+
+  private
+
+  def customer_or_guest_email_present
+    return if customer_id.present? || guest_email.present?
+
+    errors.add(:base, '顧客またはゲストメールが必要です')
+  end
 end

@@ -109,9 +109,10 @@ ActiveRecord::Schema[7.0].define(version: 2025_09_19_151506) do
     t.integer "postage", null: false
     t.integer "billing_amount", null: false
     t.integer "status", default: 0, null: false
-    t.bigint "customer_id", null: false
+    t.bigint "customer_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "guest_email"
     t.index ["customer_id"], name: "index_orders_on_customer_id"
   end
 

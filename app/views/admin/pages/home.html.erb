@@ -74,7 +74,7 @@
             <% @orders.each do |order| %>
               <tr class="hover:bg-gray-50 transition-colors">
                 <td class="px-6 py-4 whitespace-nowrap">
-                  <div class="text-sm text-gray-900"><%= order.customer.email %></div>
+                  <div class="text-sm text-gray-900"><%= order.display_email %></div>
                 </td>
                 <td class="px-6 py-4 whitespace-nowrap">
                   <div class="text-sm font-medium text-gray-900">

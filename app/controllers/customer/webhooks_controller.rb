@@ -4,8 +4,6 @@ class Customer::WebhooksController < ApplicationController
   def create
     payload = request.body.read
     sig_header = request.env['HTTP_STRIPE_SIGNATURE']
-    # 環境変数から読み込む（優先）
-    # 設定されていない場合はRails credentialsから読み込む
     endpoint_secret = ENV['STRIPE_WEBHOOK_SECRET'] || Rails.application.credentials.dig(:stripe, :endpoint_secret)
     event = nil
 
@@ -14,12 +12,10 @@ class Customer::WebhooksController < ApplicationController
         payload, sig_header, endpoint_secret
       )
     rescue JSON::ParserError => e
-      # Invalid payload
       p e
       status 400
       return
     rescue Stripe::SignatureVerificationError => e
-      # Invalid signature
       p e
       status 400
       return
@@ -27,20 +23,23 @@ class Customer::WebhooksController < ApplicationController
 
     case event.type
     when 'checkout.session.completed'
-      session = event.data.object # sessionの取得
-      customer = Customer.find(session.client_reference_id)
-      return unless customer # 顧客が存在するかどうか確認
+      session = event.data.object
 
-      # トランザクション処理開始
       ApplicationRecord.transaction do
-        order = create_order(session) # sessionを元にordersテーブルにデータを挿入
+        order = create_order(session)
         session_with_expand = Stripe::Checkout::Session.retrieve({ id: session.id, expand: ['line_items'] })
         session_with_expand.line_items.data.each do |line_item|
-          create_order_details(order, line_item) # 取り出したline_itemをorder_detailsテーブルに登録
+          create_order_details(order, line_item)
         end
       end
-      # トランザクション処理終了
-      customer.cart_items.destroy_all # 顧客のカート内商品を全て削除
+
+      if guest_order?(session)
+        # ゲスト注文: セッションカートはsuccessページでクリア
+      else
+        customer = Customer.find(session.client_reference_id)
+        customer.cart_items.destroy_all if customer
+      end
+
       OrderMailer.complete(email: session.customer_details.email).deliver_now
       redirect_to session.success_url
     end
@@ -48,18 +47,23 @@ class Customer::WebhooksController < ApplicationController
 
   private
 
+  def guest_order?(session)
+    session.client_reference_id == 'guest'
+  end
+
   def create_order(session)
-    Order.create!({
-                    customer_id: session.client_reference_id,
-                    name: session.shipping_details.name,
-                    postal_code: session.shipping_details.address.postal_code,
-                    prefecture: session.shipping_details.address.state,
-                    address1: session.shipping_details.address.line1,
-                    address2: session.shipping_details.address.line2,
-                    postage: session.shipping_options[0].shipping_amount,
-                    billing_amount: session.amount_total,
-                    status: 'confirm_payment'
-                  })
+    Order.create!(
+      customer_id: guest_order?(session) ? nil : session.client_reference_id,
+      guest_email: guest_order?(session) ? session.customer_details.email : nil,
+      name: session.shipping_details.name,
+      postal_code: session.shipping_details.address.postal_code,
+      prefecture: session.shipping_details.address.state,
+      address1: session.shipping_details.address.line1,
+      address2: session.shipping_details.address.line2,
+      postage: session.shipping_options[0].shipping_amount,
+      billing_amount: session.amount_total,
+      status: 'confirm_payment'
+    )
   end
 
   def create_order_details(order, line_item)
@@ -67,11 +71,11 @@ class Customer::WebhooksController < ApplicationController
     purchased_product = Product.find(product.metadata.product_id)
     raise ActiveRecord::RecordNotFound if purchased_product.nil?
 
-    order_detail = order.order_details.create!({
-                                                 product_id: purchased_product.id,
-                                                 price: line_item.price.unit_amount,
-                                                 quantity: line_item.quantity
-                                               })
-    purchased_product.update!(stock: (purchased_product.stock - order_detail.quantity)) # 購入された商品の在庫数の更新
+    order.order_details.create!(
+      product_id: purchased_product.id,
+      price: line_item.price.unit_amount,
+      quantity: line_item.quantity
+    )
+    purchased_product.update!(stock: (purchased_product.stock - line_item.quantity))
   end
 end
