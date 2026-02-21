@@ -14,6 +14,10 @@ class GuestCartItem
     product_id
   end
 
+  def to_param
+    product_id.to_s
+  end
+
   def product
     @product ||= Product.find(product_id)
   end

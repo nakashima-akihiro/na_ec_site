@@ -34,3 +34,6 @@ docker-compose.override.yml
 /config/master.key
 
 /config/credentials/production.key
+
+# Playwright MCP
+.playwright-mcp/

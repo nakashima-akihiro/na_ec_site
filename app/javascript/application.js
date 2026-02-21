@@ -23,14 +23,13 @@ document.addEventListener('DOMContentLoaded', function() {
   });
 });
 
-// notificationの閉じるボタン
-document.addEventListener('DOMContentLoaded', function() {
-  document.querySelectorAll('.notification-close').forEach(function(button) {
-    button.addEventListener('click', function() {
-      const notification = button.closest('.notification-element');
-      if (notification) {
-        notification.remove();
-      }
-    });
-  });
+// notificationの閉じるボタン（イベント委譲でTurbo対応）
+document.addEventListener('click', function(e) {
+  const button = e.target.closest('.notification-close');
+  if (button) {
+    const notification = button.closest('.notification-element');
+    if (notification) {
+      notification.remove();
+    }
+  }
 });
